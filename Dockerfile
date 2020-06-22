@@ -55,12 +55,13 @@ RUN sudo npm install n -g && \
 
 RUN npm install twitter
 
-RUN npm i puppeteer
-RUN npm i puppeteer-core
+RUN npm install puppeteer
+RUN npm install puppeteer-core
 RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     apt update && \
     apt-get install -y google-chrome-stable
+RUN npm install mocha -g
 
 COPY ./ /
 ENTRYPOINT [ "/bin/bash", "run.sh" ]
