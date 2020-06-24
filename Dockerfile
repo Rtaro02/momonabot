@@ -54,3 +54,13 @@ RUN sudo npm install n -g && \
     sudo apt-get purge -y nodejs npm
 
 RUN npm install twitter
+
+RUN npm i puppeteer
+RUN npm i puppeteer-core
+RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    apt update && \
+    apt-get install -y google-chrome-stable
+
+COPY ./ /
+ENTRYPOINT [ "/bin/bash", "run.sh" ]
