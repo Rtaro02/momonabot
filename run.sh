@@ -1,1 +1,1 @@
-node fetch_ameba.js
+node run.js
