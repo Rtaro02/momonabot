@@ -16,10 +16,10 @@ function milli2Min(diff) {
     var diff = current_time - blog_time;
     // Min. -> MilliSec.
     var threshold = TIME_UNIT * 60 * 1000;
-    console.log("Diff Time is " + diff + " milli seconds.");
+    console.log(new Date + " Diff Time is " + diff + " milli seconds.");
     if (diff < threshold) {
       TWEET.post(AMEBA.getTweetText(blog.url, blog.title));
     } else {
-      console.log("No Update, diff is " + milli2Min(diff) + " min.");
+      console.log(new Date + " No Update, diff is " + milli2Min(diff) + " min.");
     }
 })();
