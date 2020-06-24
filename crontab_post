@@ -1,2 +1,2 @@
-*/1 * * * * root docker run --rm post:latest
+*/1 * * * * root docker run --rm post:latest >> /var/log/cron_log.log 2>&1
 
