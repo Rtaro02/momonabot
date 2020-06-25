@@ -2,10 +2,6 @@ const puppeteer = require('puppeteer');
 const dom_structure = "ul.skin-archiveList > li.skin-borderQuiet > div > div";
 // 繰り返しの時間。Cronの時刻と合わせること
 
-exports.getTweetText = function(url, title) {
-  return "アンジュルム メンバー『" + title + "』" + url;
-}
-
 exports.fetch = async function(url) {
     const browser = await puppeteer.launch({
         args: [
