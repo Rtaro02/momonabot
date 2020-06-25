@@ -1,7 +1,7 @@
 const TWEET = require('./tweet.js');
 const AMEBA = require('./fetch_ameba.js');
 const MOMONA_URL = "https://ameblo.jp/angerme-ss-shin/theme-10097979200.html";
-const TIME_UNIT = 1;
+const TIME_UNIT = 5;
 
 function milli2Min(diff) {
     var milli = 1000;
