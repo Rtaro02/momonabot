@@ -14,8 +14,7 @@ function milli2Min(diff) {
     var result = await MONGO.findAmebaResult(blog);
     if(result == null) {
       await MONGO.addAmebaResult(blog);
-      console.log("tweeT!!!");
-      //TWEET.post(AMEBA.getTweetText(blog.url, blog.title));
+      TWEET.post(AMEBA.getTweetText(blog.url, blog.title));
     } else {
       console.log(result);
     }
