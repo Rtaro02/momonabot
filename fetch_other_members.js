@@ -11,6 +11,10 @@ const ROMAJI_MOMONA = /[Mm][Oo][Mm][Oo][Nn][Aa]/;
 const KANA_KASSA = /[かカｶ][っッｯ][さサｻ]/;
 const KAMIKASA = /[かカｶ][みミﾐ][かカｶ][さサｻ]/;
 
+exports.getTweetText = function(url, title) {
+  return "他のメンバーがブログで笠原桃奈ちゃんに触れています『" + title + "』" + url;
+}
+
 exports.confirm_include_momona_name = function(honbun) {
   if(KANJI_KASAHARA.test(honbun)) {
     return true;
@@ -63,9 +67,14 @@ exports.check_momona_existence = async function(url) {
 };
 
 exports.fetch_other_members = async function(url) {
-  var blog = fetch_ameba.fetch(url);
-  var is_include = check_momona_existence(data.url);
+  var blog = await fetch_ameba.fetch(url);
+  console.log(blog);
+  var is_include = await module.exports.check_momona_existence(blog.url);
   if(is_include) {
+    console.log("There are momona episode! in " + blog.title);
     return blog;
+  } else {
+    console.log("There are no episode in " + blog.title);
+    return null;
   }
 }
