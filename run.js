@@ -15,7 +15,5 @@ function milli2Min(diff) {
     if(result == null) {
       await MONGO.addAmebaResult(blog);
       TWEET.post(AMEBA.getTweetText(blog.url, blog.title));
-    } else {
-      console.log(result);
-    }
+    } 
 })();
