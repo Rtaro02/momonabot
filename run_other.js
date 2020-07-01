@@ -8,7 +8,7 @@ const URLS = [
   'https://ameblo.jp/angerme-ss-shin/theme-10103225477.html', // Ayano
   'https://ameblo.jp/angerme-ss-shin/theme-10087285029.html', // Rikaco
   'https://ameblo.jp/angerme-ss-shin/theme-10094584095.html', // Moe
-  'https://ameblo.jp/angerme-ss-shin/theme-10097979200.html', // Momona
+  // 'https://ameblo.jp/angerme-ss-shin/theme-10097979200.html', // Momona
   'https://ameblo.jp/angerme-ss-shin/theme-10103225326.html', // Musubu
   'https://ameblo.jp/angerme-new/theme-10108008043.html', // Layla
   'https://ameblo.jp/angerme-new/theme-10109826701.html', // Rin
