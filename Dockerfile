@@ -32,5 +32,5 @@ RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc
 RUN npm install mocha -g
 RUN npm install mongodb
 COPY ./ /
-ENTRYPOINT [ "/bin/bash", "run.sh" ]
-# ENTRYPOINT [ "/bin/bash" ]
+#ENTRYPOINT [ "/bin/bash", "run.sh" ]
+ENTRYPOINT [ "/bin/bash" ]

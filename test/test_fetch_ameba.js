@@ -32,10 +32,3 @@ describe('fetch', function () {
         assert.equal(actual, expected);
     });
 });
-describe('getTweetText', function () {
-    it('URLとタイトルを指定するとTweet用テキストが取得できる', async function () {
-        var url = 'https://example.com';
-        var title = 'MOMO';
-        assert.equal(fetch_ameba.getTweetText(url, title), "アンジュルム メンバー『" + title + "』" + url);
-    });
-});
