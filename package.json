@@ -1,0 +1,11 @@
+{
+    "dependencies": {
+        "request": "*",
+        "fs": "*",
+        "puppeteer": "*",
+        "puppeteer-core": "*",
+        "twitter": "*",
+        "mongodb": "*",
+        "mocha": "*"
+    }
+}

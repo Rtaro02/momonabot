@@ -11,10 +11,6 @@ const ROMAJI_MOMONA = /[Mm][Oo][Mm][Oo][Nn][Aa]/;
 const KANA_KASSA = /[かカｶ][っッｯ][さサｻ]/;
 const KAMIKASA = /[かカｶ][みミﾐ][かカｶ][さサｻ]/;
 
-exports.getTweetText = function(url, title) {
-  return "他のメンバーがブログで笠原桃奈ちゃんに触れています『" + title + "』" + url;
-}
-
 exports.confirm_include_momona_name = function(honbun) {
   if(KANJI_KASAHARA.test(honbun)) {
     return true;
