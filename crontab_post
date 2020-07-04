@@ -1,3 +1,2 @@
-*/5 * * * * root docker run --rm --network tweet_mongo-network post:latest run.sh >> /var/log/cron.log 2>&1
+*/5 * * * * root docker run --rm --network tweet_mongo-network post:latest run_tweet_with_image.sh >> /var/log/cron.log 2>&1
 2,12,22,32,42,52 * * * * root docker run --rm --network tweet_mongo-network post:latest run_other.sh >> /var/log/cron_other.log 2>&1
-
