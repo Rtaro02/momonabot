@@ -26,6 +26,7 @@ exports.post = async function(tweet, image_names) {
   }
   try {
     await client.post('statuses/update', status);
+    console.log("tweet success: " + status.status);
   } catch(e) {
     console.log(e);
   }
