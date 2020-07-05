@@ -1,6 +1,6 @@
-const TWEET = require('./tweet.js');
-const OTHER = require('./fetch_other_members.js');
-const MONGO = require('./mongo.js');
+const TWEET = require('../tweet/tweet.js');
+const OTHER = require('../ameba/fetch_other_members.js');
+const MONGO = require('../mongo/mongo.js');
 const process = require('process');
 
 const URLS = [

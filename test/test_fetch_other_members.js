@@ -1,5 +1,5 @@
 var assert = require('assert');
-var fetch_ameba = require('../fetch_other_members.js');
+var fetch_ameba = require('../ameba/fetch_other_members.js');
 const RIKACO_URL = "https://ameblo.jp/angerme-ss-shin/entry-12606828457.html?frm=theme"
 
 describe('本文のももちゃんチェッカー', function () {

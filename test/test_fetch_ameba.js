@@ -1,5 +1,5 @@
 var assert = require('assert');
-var fetch_ameba = require('../fetch_ameba.js');
+var fetch_ameba = require('../ameba/fetch_ameba.js');
 const MOMONA_URL = "https://ameblo.jp/angerme-ss-shin/theme-10097979200.html";
 const MUROTA_URL = "https://ameblo.jp/angerme-ss-shin/theme-10087284995.html";
 

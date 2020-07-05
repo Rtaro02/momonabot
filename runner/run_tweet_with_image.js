@@ -1,8 +1,8 @@
-const TWEET = require('./tweet_with_image.js');
-const IMAGE = require('./save_ameba_images.js');
-const AMEBA = require('./fetch_ameba.js');
+const TWEET = require('../tweet/tweet_with_image.js');
+const IMAGE = require('../ameba/save_ameba_images.js');
+const AMEBA = require('../ameba/fetch_ameba.js');
 const MOMONA_URL = "https://ameblo.jp/angerme-ss-shin/theme-10097979200.html";
-const MONGO = require('./mongo.js');
+const MONGO = require('../mongo/mongo.js');
 
 function getTweetText(url, title) {
   return "アンジュルム メンバー『" + title + "』\n" + url;

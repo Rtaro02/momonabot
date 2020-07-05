@@ -1,6 +1,6 @@
+const mongodb = require('mongodb');
 const URI = "mongodb://root:example@mongohost:27017"; 
 const OPTIONS = { useNewUrlParser: true, useUnifiedTopology: true };
-const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 const DB = 'fetch_result';
 const COLLECTION = 'ameba';
