@@ -9,6 +9,17 @@ exports.getTweetText = function(url, title) {
   return "アンジュルム メンバー『" + title + "』" + url;
 }
 
+function imageSave(url, name) {
+  return new Promise(function(resolve, reject) {
+      request({method: 'GET', url: url, encoding: null}, function (error, response, body) {
+        if(!error && response.statusCode === 200){
+          fs.writeFileSync(name, body, 'binary');
+        }
+        resolve();
+      });
+  });
+}
+
 exports.save = async function(url) {
     const browser = await puppeteer.launch({
         args: [
@@ -23,18 +34,15 @@ exports.save = async function(url) {
 
     var items = await page.$$(dom_structure);
     var names = [];
+    var myPromise = Promise.resolve();
     for(var item of items) {
       var a = await item.$('a');
       if(a != null) {
         var i = await a.$('img'); 
         var url = (await(await i.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
-        var name = url.replace(/^https.*\/([a-z0-9]+)\.jpg$/, '$1') + 'jpg';
+        var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
         names.push(name);
-        request({method: 'GET', url: url, encoding: null}, function (error, response, body){
-          if(!error && response.statusCode === 200){
-            fs.writeFileSync(name, body, 'binary');
-          }
-        });
+        myPromise = myPromise.then(imageSave.bind(this, url, name));
       }
     }
     browser.close();
