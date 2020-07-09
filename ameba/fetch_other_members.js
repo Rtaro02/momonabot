@@ -64,13 +64,12 @@ exports.check_momona_existence = async function(url) {
 
 exports.fetch_other_members = async function(url) {
   var blog = await fetch_ameba.fetch(url);
-  console.log(blog);
   var is_include = await module.exports.check_momona_existence(blog.url);
   if(is_include) {
-    console.log("There are momona episode! in " + blog.title);
+    console.log(new Date() + " There are momona episode! in " + blog.title);
     return blog;
   } else {
-    console.log("There are no episode in " + blog.title);
+    console.log(new Date() + " There are no episode in " + blog.title);
     return null;
   }
 }

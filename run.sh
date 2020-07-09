@@ -1,1 +1,0 @@
-node ./runner/run.js

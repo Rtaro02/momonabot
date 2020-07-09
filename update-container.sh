@@ -1,5 +1,5 @@
 sudo docker build . -t post:latest
-sudo docker run -it --rm --network tweet_mongo-network post:latest run_eline.sh
-# sudo docker run -it --rm --network tweet_mongo-network post:latest
-# sudo docker run -it --rm --network tweet_mongo-network post:latest run_other.sh
-# sudo docker run -it --rm --network tweet_mongo-network post:latest run_tweet_with_image.sh
+# sudo docker run -it --rm --network momonabot_mongo-network post:latest ./shell/run.sh $1
+# sudo docker run -it --rm --network momonabot_mongo-network post:latest ./shell/run_other.sh $1
+# sudo docker run -it --rm --network momonabot_mongo-network post:latest ./shell/run_tweet_with_image.sh $1
+sudo docker run -it --rm --network momonabot_mongo-network post:latest ./shell/run_eline.sh $1

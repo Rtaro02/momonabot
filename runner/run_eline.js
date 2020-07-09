@@ -3,6 +3,7 @@ const ELINE = require('../eline/fetch_eline.js');
 const MONGO = require('../mongo/mongo.js');
 const request = require('request');
 const fs = require('fs');
+const process = require('process');
 
 function getTweetText(x) {
   return "笠原桃奈ちゃんの新商品が発売されています\n\n" + x.title + '\n' + x.url;
@@ -22,12 +23,16 @@ function imageSave(x) {
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await MONGO.findElineResult(x);
+    var willTweet = process.argv[2];
     if(result == null) {
       await MONGO.addElineResult(x);
-      await TWEET.post(getTweetText(x), [ x.name ]);
+      if(willTweet) {
+        await TWEET.post(getTweetText(x), [ x.name ]);
+      } else {
+        console.log(new Date() + " tweet was skipped by user.");
+      }
     } else {
-      console.log("Already Tweeted");
-      console.log(result);
+      console.log(new Date() + " " + result.title + " was already tweeted");
     }
     resolve();
   });
@@ -35,7 +40,7 @@ function tweet(x) {
 
 (async() => {
     var list = await ELINE.fetch();
-    console.log(list);
+    // console.log(list);
     var myPromise = Promise.resolve();
     for(var x of list) {
       myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet);
