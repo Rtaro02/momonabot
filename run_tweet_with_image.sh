@@ -1,1 +1,0 @@
-node ./runner/run_tweet_with_image.js

@@ -23,12 +23,17 @@ function getTweetText(url, title) {
   if (blog != null) {
     // This blog include momona episode.
     var result = await MONGO.findAmebaResult(blog);
+    var willTweet = process.argv[3];
     if(result == null) {
       // Have not posted yet.
       await MONGO.addAmebaResult(blog);
-      TWEET.post(getTweetText(blog.url, blog.title));
+      if(willTweet) {
+        TWEET.post(getTweetText(blog.url, blog.title));
+      } else {
+        console.log(new Date() + " tweet was skipped by user.");
+      }
     } else {
-      console.log("Already posted.");
+      console.log(new Date() + " " + result.title + " was already posted. ");
     }
   }
 })();
