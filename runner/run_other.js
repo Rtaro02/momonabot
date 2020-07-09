@@ -15,7 +15,7 @@ const URLS = [
 ];
 
 function getTweetText(url, title) {
-  return "他のメンバーがブログで笠原桃奈ちゃんに触れています『" + title + "』" + url;
+  return "他のメンバーがブログで笠原桃奈ちゃんに触れています『" + title + "』 #ANGERME #アンジュルム \n" + url;
 }
 
 (async() => {

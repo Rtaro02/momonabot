@@ -6,7 +6,7 @@ const fs = require('fs');
 const process = require('process');
 
 function getTweetText(x) {
-  return "笠原桃奈ちゃんの新商品が発売されています\n\n" + x.title + '\n' + x.url;
+  return "笠原桃奈ちゃんの新商品が発売されています #ANGERME #アンジュルム \n\n" + x.title + '\n' + x.url;
 }
 
 function imageSave(x) {

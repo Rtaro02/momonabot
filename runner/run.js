@@ -5,7 +5,7 @@ const MONGO = require('../mongo/mongo.js');
 const process = require('process');
 
 function getTweetText(url, title) {
-  return "アンジュルム メンバー『" + title + "』\n" + url;
+  return "アンジュルム メンバー『" + title + "』 #ANGERME #アンジュルム \n" + url;
 }
 
 (async() => {
