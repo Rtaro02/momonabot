@@ -3,6 +3,7 @@ const ELINE = require('../eline/fetch_eline.js');
 const MONGO = require('../mongo/mongo.js');
 const request = require('request');
 const fs = require('fs');
+const process = require('process');
 
 function getTweetText(x) {
   return "笠原桃奈ちゃんの新商品が発売されています\n\n" + x.title + '\n' + x.url;
