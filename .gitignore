@@ -1,3 +1,4 @@
 credential.js
 datadir
 datadir/*
+terraform/variable.tf
