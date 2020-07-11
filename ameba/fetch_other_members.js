@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const fetch_ameba = require('./fetch_ameba');
-const dom_structure = "div.skin-entryBody";
+const dom_structure = 'div.skin-entryBody';
 const KANJI_KASAHARA = /笠原/;
 const KANJI_MOMONA = /桃奈/;
 const KANA_KASAHARA = /[かカｶ][さサｻ][はハﾊ][らラﾗ]/;
@@ -51,7 +51,7 @@ exports.check_momona_existence = async function(url) {
       ]
   });
   const page = await browser.newPage();
-  await page.goto(url, {waitUntil: "domcontentloaded"});
+  await page.goto(url, {waitUntil: 'domcontentloaded'});
   await page.waitFor(1500);
 
   var data = await page.$eval(dom_structure, item => {
@@ -66,10 +66,10 @@ exports.fetch_other_members = async function(url) {
   var blog = await fetch_ameba.fetch(url);
   var is_include = await module.exports.check_momona_existence(blog.url);
   if(is_include) {
-    console.log(new Date() + " There are momona episode! in " + blog.title);
+    console.log(new Date() + ' There are momona episode! in ' + blog.title);
     return blog;
   } else {
-    console.log(new Date() + " There are no episode in " + blog.title);
+    console.log(new Date() + ' There are no episode in ' + blog.title);
     return null;
   }
 }

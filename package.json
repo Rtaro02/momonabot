@@ -1,0 +1,12 @@
+{
+    "dependencies": {
+        "chai": "^4.2.0",
+        "fs": "*",
+        "mocha": "*",
+        "mongodb": "*",
+        "puppeteer": "*",
+        "puppeteer-core": "*",
+        "request": "*",
+        "twitter": "*"
+    }
+}

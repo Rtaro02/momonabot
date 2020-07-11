@@ -1,1 +1,1 @@
-node ../runner/run.js $1
+node ../runner/run_eline.js $1

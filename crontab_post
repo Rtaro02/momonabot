@@ -2,3 +2,5 @@
 2,12,22,32,42,52 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_other.sh true >> /var/log/cron_other.log 2>&1
 0 16-23 * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_eline.sh true >> /var/log/cron_eline.log 2>&1
 0 0-6 * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_eline.sh true >> /var/log/cron_eline.log 2>&1
+0 16-23 * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_hpfc.sh true >> /var/log/cron_hpfc.log 2>&1
+0 0-6 * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_hpfc.sh true >> /var/log/cron_hpfc.log 2>&1

@@ -1,6 +1,7 @@
 credential.js
-datadir
-datadir/*
+datadir/
 terraform/variable.tf
 terraform/terraform*
 terraform/.terraform*
+node_modules/
+*.jpg

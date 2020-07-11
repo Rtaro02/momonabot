@@ -1,2 +1,4 @@
 .git
 datadir
+terraform
+node_modules

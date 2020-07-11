@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer');
-const dom_structure = "ul.skin-archiveList > li.skin-borderQuiet > div > div";
+const dom_structure = 'li.skin-borderQuiet > div > div';
 // 繰り返しの時間。Cronの時刻と合わせること
 
 exports.fetch = async function(url) {
@@ -11,7 +11,7 @@ exports.fetch = async function(url) {
         ]
     });
     const page = await browser.newPage();
-    await page.goto(url, {waitUntil: "domcontentloaded"});
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
     await page.waitFor(1500);
 
     var items = await page.$$(dom_structure);

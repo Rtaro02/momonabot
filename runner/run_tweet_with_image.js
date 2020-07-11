@@ -1,12 +1,12 @@
 const TWEET = require('../tweet/tweet_with_image.js');
 const IMAGE = require('../ameba/save_ameba_images.js');
 const AMEBA = require('../ameba/fetch_ameba.js');
-const MOMONA_URL = "https://ameblo.jp/angerme-ss-shin/theme-10097979200.html";
+const MOMONA_URL = 'https://ameblo.jp/angerme-ss-shin/theme-10097979200.html';
 const MONGO = require('../mongo/mongo.js');
 const process = require('process');
 
 function getTweetText(url, title) {
-  return "アンジュルム メンバー『" + title + "』 #ANGERME #アンジュルム \n" + url;
+  return 'アンジュルム メンバー『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
 (async() => {
@@ -19,9 +19,9 @@ function getTweetText(url, title) {
       if(willTweet) {
         await TWEET.post(getTweetText(blog.url, blog.title), image_names);
       } else {
-        console.log(new Date() + " tweet was skipped by user.");
+        console.log(new Date() + ' tweet was skipped by user.');
       }
     } else {
-      console.log(new Date() + " " + result.title + " was already posted. ");
+      console.log(new Date() + ' ' + result.title + ' was already posted. ');
     }
 })();

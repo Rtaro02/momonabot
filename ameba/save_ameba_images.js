@@ -2,11 +2,11 @@ const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
 
-const dom_structure = "div.skin-entryBody > div";
+const dom_structure = 'div.skin-entryBody > div';
 // 繰り返しの時間。Cronの時刻と合わせること
 
 exports.getTweetText = function(url, title) {
-  return "アンジュルム メンバー『" + title + "』" + url;
+  return 'アンジュルム メンバー『' + title + '』' + url;
 }
 
 function imageSave(url, name) {
@@ -29,7 +29,7 @@ exports.save = async function(url) {
         ]
     });
     const page = await browser.newPage();
-    await page.goto(url, {waitUntil: "domcontentloaded"});
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
     await page.waitFor(1500);
 
     var items = await page.$$(dom_structure);

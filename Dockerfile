@@ -31,7 +31,8 @@ RUN npm install puppeteer
 RUN npm install puppeteer-core
 RUN npm install twitter
 RUN npm install mongodb
-RUN npm install mocha
+RUN npm install -g mocha
+RUN npm install chai
 COPY ./ /
 #ENTRYPOINT [ "/bin/bash", "run.sh" ]
 ENTRYPOINT [ "/bin/bash" ]
