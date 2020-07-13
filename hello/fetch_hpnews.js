@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const dom_structure = 'div.mbox > ul > li';
+const util = require('../util/util.js');
 
 async function load(url) {
     const browser = await puppeteer.launch({
@@ -26,7 +27,9 @@ async function load(url) {
         var x = await item.$('p > a');
         map.title = await (await x.getProperty('textContent')).jsonValue();
         map.url = await (await x.getProperty('href')).jsonValue();
-        list.push(map);
+        if(util.isMomonaOrAngermeTopic(map.title)) {
+          list.push(map);
+        }
       }
     }
     browser.close();
