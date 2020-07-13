@@ -15,7 +15,7 @@ const URLS = [
 ];
 
 function getTweetText(url, title) {
-  return "他のメンバーがブログで笠原桃奈ちゃんに触れています\n\n『" + title + "』 #ANGERME #アンジュルム \n" + url;
+  return '他のメンバーがブログで笠原桃奈ちゃんに触れています\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
 (async() => {
@@ -30,10 +30,10 @@ function getTweetText(url, title) {
       if(willTweet) {
         TWEET.post(getTweetText(blog.url, blog.title));
       } else {
-        console.log(new Date() + " tweet was skipped by user.");
+        console.log(new Date() + ' tweet was skipped by user.');
       }
     } else {
-      console.log(new Date() + " " + result.title + " was already posted. ");
+      console.log(new Date() + ' ' + result.title + ' was already posted. ');
     }
   }
 })();

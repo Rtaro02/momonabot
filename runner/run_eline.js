@@ -4,9 +4,11 @@ const MONGO = require('../mongo/mongo.js');
 const request = require('request');
 const fs = require('fs');
 const process = require('process');
+const eline_angerme_url = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
+const FINAL_PAGE = 3;
 
 function getTweetText(x) {
-  return "笠原桃奈ちゃんの新商品が発売されています #ANGERME #アンジュルム \n\n" + x.title + '\n' + x.url;
+  return '笠原桃奈ちゃんの新商品が発売されています #ANGERME #アンジュルム \n\n' + x.title + '\n' + x.url;
 }
 
 function imageSave(x) {
@@ -29,17 +31,17 @@ function tweet(x) {
       if(willTweet) {
         await TWEET.post(getTweetText(x), [ x.name ]);
       } else {
-        console.log(new Date() + " tweet was skipped by user.");
+        console.log(new Date() + ' tweet was skipped by user.');
       }
     } else {
-      console.log(new Date() + " " + result.title + " was already tweeted");
+      console.log(new Date() + ' ' + result.title + ' was already tweeted');
     }
     resolve();
   });
 }
 
 (async() => {
-    var list = await ELINE.fetch();
+    var list = await ELINE.fetch(eline_angerme_url, FINAL_PAGE);
     // console.log(list);
     var myPromise = Promise.resolve();
     for(var x of list) {

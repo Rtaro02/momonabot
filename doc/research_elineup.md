@@ -2,16 +2,17 @@
 
 There are following sites about hello! project.
 
-- https://www.helloshop.info/
-- https://www.elineupmall.com/
+- https://www.up-fc.jp/helloproject/news.php
 
-We cannot buy any items from helloshop. We have to buy from elineupmall.
-Therefore, I'll research elineupmall.
+## Feature of search
+
+- I assume this search work not to title but page contents.
+- When I search by "笠原", I have got Web page list which includes "笠原" in each page.
 
 ## Flow
 
-1. Move to Top page
-2. Seach products by word of "Angerme"
-3. Analyze title of each product. If each product matches following conditions, Bot will tweet.
-    1. title includes words except for Momona
-4. Bot will tweet.
+1. Fetch FC site
+1. omit not H!P or Angerme(Momona)
+1. Fetch FC site by search word "笠原"
+1. omit H!P and Angerme Word
+1. Tweet

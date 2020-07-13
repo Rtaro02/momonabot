@@ -11,7 +11,7 @@ var client = new Twitter({
 exports.post = function(content) {
   client.post('statuses/update', {status: content}, function(error, tweet, response) {
     if (!error) {
-      console.log(new Date() + " tweet success: " + content);
+      console.log(new Date() + ' tweet success: ' + content);
     } else {
       console.log(error);
     }
