@@ -1,4 +1,4 @@
 */5 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_tweet_with_image.sh true >> /var/log/cron.log 2>&1
-2,22,42 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_other.sh true >> /var/log/cron_other.log 2>&1
+2,17,32,47 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_other.sh true >> /var/log/cron_other.log 2>&1
 0 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_eline.sh true >> /var/log/cron_eline.log 2>&1
 30 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_hpfc.sh true >> /var/log/cron_hpfc.log 2>&1
