@@ -31,14 +31,12 @@ exports.save = async function(url) {
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'domcontentloaded'});
     await page.waitFor(1500);
-
     var items = await page.$$(dom_structure);
     var names = [];
     var myPromise = Promise.resolve();
     for(var item of items) {
-      var a = await item.$('a');
-      if(a != null) {
-        var i = await a.$('img'); 
+      var i = await item.$('img'); 
+      if(i != null) {
         var url = (await(await i.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
         var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
         names.push(name);
