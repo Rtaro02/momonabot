@@ -1,6 +1,5 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const OTHER = require('../ameba/fetch_other_members.js');
-const IMAGE = require('../ameba/save_ameba_images.js');
 const MONGO = require('../mongo/mongo.js');
 const process = require('process');
 
@@ -68,14 +67,13 @@ function getTweetText(url, title) {
   var blog = await OTHER.fetch_other_members(URLS[process.argv[2]]);
   if (blog != null) {
     // This blog include momona episode.
-    var image_names = await IMAGE.save(blog.url);
     var result = await MONGO.findAmebaResult(blog);
     var willTweet = process.argv[3];
     if(result == null) {
       // Have not posted yet.
       await MONGO.addAmebaResult(blog);
       if(willTweet) {
-        TWEET.post(getTweetText(blog.url, blog.title), image_names);
+        TWEET.post(getTweetText(blog.url, blog.title));
       } else {
         console.log(new Date() + ' tweet was skipped by user.');
       }
