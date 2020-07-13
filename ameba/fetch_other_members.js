@@ -48,7 +48,8 @@ exports.check_momona_existence = async function(url) {
         '--no-sandbox',
         '--disable-setuidjj-sandbox',
         '--incognito'
-      ]
+      ],
+      timeout: 60000
   });
   const page = await browser.newPage();
   await page.goto(url, {waitUntil: 'domcontentloaded'});
