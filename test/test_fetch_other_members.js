@@ -25,4 +25,9 @@ describe('他のメンバーの桃奈ちゃん言及チェック', function () {
         var actual = await fetch_ameba.check_momona_existence(url);
         assert.equal(actual, true);
     });
+    it('2020713の高瀬ブログでは笠原っていっている', async function () {
+        var url = 'https://ameblo.jp/beyooooonds-rfro/entry-12610807938.html?frm=theme';
+        var actual = await fetch_ameba.check_momona_existence(url);
+        assert.equal(actual, true);
+    });
 });

@@ -31,4 +31,10 @@ describe('アメブロ挙動確認', function () {
         var regex = /^2020-03-22 \d\d:50:53$/;
         assert.equal(regex.test(actual), true);
     });
+    it('桃奈ちゃんのURLをインプットするとURLが返却される', async function () {
+        var actual = (await fetch_ameba.fast_fetch(MOMONA_URL)).url;
+        var regex = /^https:\/\/ameblo.jp\/angerme-ss-shin\/entry-.*$/;
+        assert.equal(regex.test(actual), true);
+    });
 });
+
