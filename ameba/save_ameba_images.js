@@ -35,7 +35,7 @@ exports.save = async function(url) {
     var names = [];
     var myPromise = Promise.resolve();
     for(var item of items) {
-      var i = await item.$('img'); 
+      var i = await item.$('img.PhotoSwipeImage');
       if(i != null) {
         var url = (await(await i.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
         var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
