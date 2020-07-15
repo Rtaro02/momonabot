@@ -24,7 +24,7 @@ exports.save = async function(url) {
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
-          '--disable-setuidjj-sandbox',
+          '--disable-setuid-sandbox',
           '--incognito'
         ]
     });

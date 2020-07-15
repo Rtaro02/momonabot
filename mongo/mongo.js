@@ -6,6 +6,7 @@ const DB = 'fetch_result';
 const AMEBA = 'ameba';
 const ELINE = 'eline';
 const HPFC = 'HPFC';
+const INSTAGRAM = 'instagram';
 
 exports.addAmebaResult = async function(obj) {
     var client = await MongoClient.connect(URI, OPTIONS);
@@ -51,6 +52,22 @@ exports.findHpfcResult = async function(obj) {
     var client = await MongoClient.connect(URI, OPTIONS);
     const db = client.db(DB);
     var result = await db.collection(HPFC).findOne(obj);
+    client.close();
+    return result;
+}
+
+exports.addInstagramResult = async function(obj) {
+    var client = await MongoClient.connect(URI, OPTIONS);
+    const db = client.db(DB);
+    var result = await db.collection(INSTAGRAM).insertOne(obj);
+    client.close();
+    return result.insertedCount;
+}
+
+exports.findInstagramResult = async function(obj) {
+    var client = await MongoClient.connect(URI, OPTIONS);
+    const db = client.db(DB);
+    var result = await db.collection(INSTAGRAM).findOne(obj);
     client.close();
     return result;
 }
