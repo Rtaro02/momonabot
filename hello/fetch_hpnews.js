@@ -6,7 +6,7 @@ async function load(url) {
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
-          '--disable-setuidjj-sandbox',
+          '--disable-setuid-sandbox',
           '--incognito'
         ]
     });
