@@ -1,6 +1,6 @@
 var assert = require('assert');
 var fetch_ameba = require('../instagram/fetch_instagram.js');
-const URL = 'https://www.instagram.com/angerme_official/';
+const URL = 'https://www.instagram.com/accounts/login/?next=/angerme_official/';
 
 describe('Instagram挙動確認', function () {
     // テストのタイムアウトを10sec.に設定

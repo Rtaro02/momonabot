@@ -1,6 +1,6 @@
 const TWEET = require('../tweet/tweet_with_image.js');
 const INSTAGRAM = require('../instagram/fetch_instagram.js');
-const URL = 'https://www.instagram.com/angerme_official/';
+const URL = 'https://www.instagram.com/accounts/login/?next=/angerme_official/';
 const MONGO = require('../mongo/mongo.js');
 const process = require('process');
 
