@@ -19,8 +19,7 @@ exports.fetch = async function(url, number_of_article) {
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--incognito'
+          '--disable-setuid-sandbox'
         ]
     });
 
