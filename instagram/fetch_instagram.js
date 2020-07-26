@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
+const credential = require('../credential.js').instagram;
 // 繰り返しの時間。Cronの時刻と合わせること
 
 function imageSave(url, name) {
@@ -18,15 +19,27 @@ exports.fetch = async function(url, number_of_article) {
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--incognito'
+          '--disable-setuid-sandbox'
         ]
     });
-    const page = await browser.newPage();
-    await page.goto(url, {waitUntil: 'domcontentloaded'});
-    await page.waitFor(1500);
 
-    // 一番上の行を取得する
+    const page = await browser.newPage();
+
+    // Login Page
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
+    await page.waitFor(3000);
+    await page.type('input[name="username"]', credential.username);
+    await page.type('input[name="password"]', credential.password);
+    const button = await page.$('button[type=submit]');
+    await button.click();
+    await page.waitFor(10000);
+
+    // Submit Page
+    var buttons = await page.$('button[type=button]');
+    await buttons.click();
+    await page.waitFor(10000);
+
+    // Mainpage
     var items = await page.$$('article > div > div > div > div');
     var list = [];
     for(var item of items) {
