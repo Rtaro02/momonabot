@@ -6,7 +6,6 @@ const KANJI_KASAHARA = /笠原/;
 const KANJI_MOMONA = /桃奈/;
 const KANA_KASAHARA = /[かカｶ][さサｻ][はハﾊ][らラﾗ]/;
 const KANA_MOMONA = /[もモﾓ][もモﾓ][なナﾅ]/;
-const MOMOCHAN = /[もモﾓ][もモﾓ][ちチﾁ][ゃャｬ][んンﾝ]/;
 const ROMAJI_KASAHARA = /[Kk][Aa][Ss][Aa][Hh][Aa][Rr][Aa]/;
 const ROMAJI_MOMONA = /[Mm][Oo][Mm][Oo][Nn][Aa]/;
 const KANA_KASSA = /[かカｶ][っッｯ][さサｻ]/;
@@ -32,9 +31,6 @@ exports.confirm_include_momona_name = function(honbun) {
     return true;
   }
   if(KANA_KASSA.test(honbun)){
-    return true;
-  }
-  if(MOMOCHAN.test(honbun)){
     return true;
   }
   if(KAMIKASA.test(honbun)){
