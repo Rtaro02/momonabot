@@ -1,7 +1,5 @@
-const puppeteer = require('puppeteer');
 const fetch_ameba = require('./fetch_ameba');
 const request = require('request');
-const dom_structure = 'div.skin-entryBody';
 const KANJI_KASAHARA = /笠原/;
 const KANJI_MOMONA = /桃奈/;
 const KANA_KASAHARA = /[かカｶ][さサｻ][はハﾊ][らラﾗ]/;
