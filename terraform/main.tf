@@ -1,13 +1,13 @@
 provider "google" {
   credentials = file("~/.gcp/terraform-credential.json")
   project     = var.gcp_project
-  region      = "asia-northeast1"
-  zone        = "asia-northeast1-c"
+  region      = var.default_region
+  zone        = var.default_zone
 }
 
 resource "google_compute_instance" "vm-instance" {
   name         = "momonabot"
-  machine_type = "g1-small"
+  machine_type = "n1-standard-1"
   labels = {
     env = "tweet"
   }
@@ -31,16 +31,16 @@ resource "google_compute_instance" "vm-instance" {
 }
 
 resource "google_pubsub_topic" "start-instance-event" {
-  name = "start-instance-event"
+  name = var.start_topic
 }
 
 resource "google_pubsub_topic" "stop-instance-event" {
-  name = "stop-instance-event"
+  name = var.stop_topic
 }
 
 resource "google_storage_bucket" "bucket" {
   name          = "momonabot"
-  location      = "asia-northeast1"
+  location      = var.default_region
   storage_class = "standard"
 }
 
@@ -51,35 +51,33 @@ resource "google_storage_bucket_object" "archive" {
 }
 
 resource "google_cloudfunctions_function" "startInstancePubSub" {
-  name        = "startInstancePubSub"
-  description = "startInstancePubSub"
-  runtime     = "nodejs10"
+  name    = "startInstancePubSub"
+  runtime = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
   event_trigger {
     event_type = "providers/cloud.pubsub/eventTypes/topic.publish"
-    resource   = "start-instance-event"
+    resource   = var.start_topic
   }
 }
 
 resource "google_cloudfunctions_function" "stopInstancePubSub" {
-  name        = "stopInstancePubSub"
-  description = "stopInstancePubSub"
-  runtime     = "nodejs10"
+  name    = "stopInstancePubSub"
+  runtime = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
   event_trigger {
     event_type = "providers/cloud.pubsub/eventTypes/topic.publish"
-    resource   = "stop-instance-event"
+    resource   = var.stop_topic
   }
 }
 
 resource "google_cloud_scheduler_job" "startup" {
   name      = "startup"
   schedule  = "0 12 * * *"
-  time_zone = "Asia/Tokyo"
+  time_zone = var.time_zone
 
   pubsub_target {
     # topic.id is the topic's full resource name.
@@ -91,7 +89,7 @@ resource "google_cloud_scheduler_job" "startup" {
 resource "google_cloud_scheduler_job" "shutdown" {
   name      = "shutdown"
   schedule  = "0 0 * * *"
-  time_zone = "Asia/Tokyo"
+  time_zone = var.time_zone
 
   pubsub_target {
     # topic.id is the topic's full resource name.

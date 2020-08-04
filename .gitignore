@@ -1,6 +1,6 @@
 credential.js
 datadir/
-terraform/variable.tf
+terraform/gcp_project_settings.tf
 terraform/terraform*
 terraform/.terraform*
 node_modules/
