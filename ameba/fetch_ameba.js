@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const dom_structure = 'li.skin-borderQuiet > div > div';
-// 繰り返しの時間。Cronの時刻と合わせること
 
 exports.fetch = async function(url) {
     const browser = await puppeteer.launch({
@@ -56,4 +55,89 @@ exports.fast_fetch = async function(url) {
   blog.url = 'https://ameblo.jp' + x.replace(/^.*href="([^"]+)".*$/, '$1');
   blog.title = x.replace(/^.*>([^>]+)<\/a>.*$/, '$1').replace(/&quot;/g, '');;
   return blog;
+};
+
+function getPadding(x) {
+  var time;
+  if(/^\d$/.test(x)) {
+    time = "0" + x;
+  } else {
+    time = x;
+  }
+  return time;
+}
+
+exports.fetch_old_momona_post = async function() {
+  var date = new Date();
+  var base_year = date.getFullYear();
+  var month = getPadding(date.getMonth() + 1);
+  var day = getPadding(date.getDate());
+
+  var pageNo = 1;
+  var baseurl = "https://ameblo.jp/angerme-ss-shin/archive";
+  const browser = await puppeteer.launch({
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--incognito'
+    ]
+  });
+  const page = await browser.newPage();
+  var time_delta = 1;
+  var blogs = [];
+  while(true) {
+    var year = base_year - time_delta;
+    // 桃奈ちゃんの加入は2015年
+    if(year < 2015) {
+        break;
+    }
+    var previousUrl;
+    var end_flag;
+    while(true) {
+      var url = baseurl + pageNo + "-" + year + month + ".html"
+      await page.goto(url, {waitUntil: 'domcontentloaded'});
+      await page.waitFor(1500);
+
+      var items = await page.$$('li.skin-borderQuiet');
+
+      var flag = true;
+      for(var i = 0; i < items.length; i++) {
+        var blog = {};
+        var item = items[i];
+        var urlItem = await item.$('h2 > a');
+        var timeItem = await item.$('p.skin-textQuiet');
+        var authorItem = await item.$('dd.skin-textQuiet > a');
+        if(!!urlItem && !!timeItem) {
+          blog.url = await (await urlItem.getProperty('href')).jsonValue();
+          blog.title = await (await urlItem.getProperty('textContent')).jsonValue();
+          blog.time = (await (await timeItem.getProperty('textContent')).jsonValue()).replace('NEW!', '');
+          blog.author =  await (await authorItem.getProperty('textContent')).jsonValue();
+          blog.time_delta = time_delta;
+          var blog_date = blog.time.replace(/^\d+-\d+-(\d+) [\d:]+$/, '$1');
+          if(previousUrl == blog.url) {
+            end_flag = true;
+            break;
+          }
+          // 初回のみ書き込む
+          if(flag) {
+            previousUrl = blog.url;
+            flag = false;
+          }
+          regex = /笠原桃奈/;
+          if(regex.test(blog.author) || regex.test(blog.title)) {
+            if(day == blog_date) {
+              blogs.push(blog);
+            }
+          }
+        }
+      }
+      if(end_flag) {
+        break;
+      }
+      pageNo++;
+    }
+    time_delta++;
+  }
+  browser.close();
+  return blogs;
 };
