@@ -4,3 +4,4 @@
 0 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_eline.sh true >> /var/log/cron_eline.log 2>&1
 30 * * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_hpfc.sh true >> /var/log/cron_hpfc.log 2>&1
 30 3 * * * root docker run --rm --network momonabot_mongo-network post:latest ./shell/run_old.sh >> /var/log/cron.log 2>&1
+
