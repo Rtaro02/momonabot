@@ -6,7 +6,8 @@ function getTweetText(url, title, delta) {
 }
 
 (async() => {
-  var blogs = await AMEBA.fetch_old_momona_post();
+  var date = new Date();
+  var blogs = await AMEBA.fetch_old_momona_post(date);
   if (blogs.length != 0) {
     for(var blog of blogs) {
       TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta));
