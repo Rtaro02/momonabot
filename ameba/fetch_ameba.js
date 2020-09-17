@@ -67,13 +67,11 @@ function getPadding(x) {
   return time;
 }
 
-exports.fetch_old_momona_post = async function() {
-  var date = new Date();
+exports.fetch_old_momona_post = async function(date) {
   var base_year = date.getFullYear();
   var month = getPadding(date.getMonth() + 1);
   var day = getPadding(date.getDate());
 
-  var pageNo = 1;
   var baseurl = "https://ameblo.jp/angerme-ss-shin/archive";
   const browser = await puppeteer.launch({
     args: [
@@ -87,12 +85,13 @@ exports.fetch_old_momona_post = async function() {
   var blogs = [];
   while(true) {
     var year = base_year - time_delta;
-    // 桃奈ちゃんの加入は2015年
-    if(year < 2015) {
+    // 桃奈ちゃんの加入は2016年
+    if(year < 2016) {
         break;
     }
-    var previousUrl;
-    var end_flag;
+    var previousUrl = "";
+    var end_flag = false;
+    var pageNo = 1;
     while(true) {
       var url = baseurl + pageNo + "-" + year + month + ".html"
       await page.goto(url, {waitUntil: 'domcontentloaded'});
