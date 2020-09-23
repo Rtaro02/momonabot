@@ -4,36 +4,22 @@ const KANJI_KASAHARA = /笠原/;
 const KANJI_MOMONA = /桃奈/;
 const KANA_KASAHARA = /[かカｶ][さサｻ][はハﾊ][らラﾗ]/;
 const KANA_MOMONA = /[もモﾓ][もモﾓ][なナﾅ]/;
+const KASA_CHAN = /[かカｶ][さサｻ][ちチﾁ][ゃャｬ][んンﾝ]/;
 const ROMAJI_KASAHARA = /[Kk][Aa][Ss][Aa][Hh][Aa][Rr][Aa]/;
 const ROMAJI_MOMONA = /[Mm][Oo][Mm][Oo][Nn][Aa]/;
 const KANA_KASSA = /[かカｶ][っッｯ][さサｻ]/;
 const KAMIKASA = /[かカｶ][みミﾐ][かカｶ][さサｻ]/;
 
 exports.confirm_include_momona_name = function(honbun) {
-  if(KANJI_KASAHARA.test(honbun)) {
-    return true;
-  }
-  if(KANJI_MOMONA.test(honbun)){
-    return true;
-  }
-  if(KANA_KASAHARA.test(honbun)) {
-    return true;
-  }
-  if(KANA_MOMONA.test(honbun)){
-    return true;
-  }
-  if(ROMAJI_KASAHARA.test(honbun)) {
-    return true;
-  }
-  if(ROMAJI_MOMONA.test(honbun)){
-    return true;
-  }
-  if(KANA_KASSA.test(honbun)){
-    return true;
-  }
-  if(KAMIKASA.test(honbun)){
-    return true;
-  }
+  if(KANJI_KASAHARA.test(honbun)) return true;
+  if(KANJI_MOMONA.test(honbun)) return true;
+  if(KANA_KASAHARA.test(honbun)) return true;
+  if(KANA_MOMONA.test(honbun)) return true;
+  if(KASA_CHAN.test(honbun)) return true;
+  if(ROMAJI_KASAHARA.test(honbun)) return true;
+  if(ROMAJI_MOMONA.test(honbun)) return true;
+  if(KANA_KASSA.test(honbun)) return true;
+  if(KAMIKASA.test(honbun)) return true;
   return false;
 }
 
