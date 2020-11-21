@@ -5,6 +5,12 @@ provider "google" {
   zone        = var.default_zone
 }
 
+terraform {
+  backend "gcs" {
+    bucket  = "momonabot-tfstate"
+  }
+}
+
 resource "google_compute_instance" "vm-instance" {
   name         = "momonabot"
   machine_type = "n1-standard-1"
