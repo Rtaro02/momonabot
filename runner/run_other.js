@@ -1,6 +1,6 @@
 const TWEET = require('../tweet/tweet.js');
 const OTHER = require('../ameba/fetch_other_members.js');
-const MONGO = require('../mongo/mongo.js');
+const FIRESTORE = require('../firestore/firestore.js');
 const process = require('process');
 
 const URLS = [
@@ -67,11 +67,11 @@ function getTweetText(url, title) {
   var blog = await OTHER.fetch_other_members(URLS[process.argv[2]]);
   if (blog != null) {
     // This blog include momona episode.
-    var result = await MONGO.findAmebaResult(blog);
+    var result = await FIRESTORE.findAmebaResult(blog.url);
     var willTweet = process.argv[3];
     if(result == null) {
       // Have not posted yet.
-      await MONGO.addAmebaResult(blog);
+      await FIRESTORE.addAmebaResult(blog);
       if(willTweet) {
         TWEET.post(getTweetText(blog.url, blog.title));
       } else {

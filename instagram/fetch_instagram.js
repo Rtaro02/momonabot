@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
-const credential = require('../credential.js').instagram;
+const credential = require('../secret/credential.js').instagram;
 // 繰り返しの時間。Cronの時刻と合わせること
 
 function imageSave(url, name) {

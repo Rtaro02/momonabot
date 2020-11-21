@@ -1,16 +1,35 @@
 provider "google" {
-  credentials = file("~/.gcp/terraform-credential.json")
-  project     = var.gcp_project
-  region      = var.default_region
-  zone        = var.default_zone
+  project = var.gcp_project
+  region  = var.default_region
+  zone    = var.default_zone
 }
+
+# You have to do following actions.
+#
+# 1. Add GCP Project for momonabot, and you may be able to add role/owner to your main google account.
+# 2. Create GCS bucket with name defined in this tffile.
+# 3. Enable Firestore (Don't select Datastore because Datastore is not free quota).
 
 terraform {
   backend "gcs" {
-    bucket  = "momonabot-tfstate"
+    bucket = "momonabot-tfstate"
   }
 }
 
+resource "google_service_account" "this" {
+  account_id   = "momonabot-firestore-sa"
+  display_name = "momonabot firestore"
+  project      = var.gcp_project
+}
+
+resource "google_project_iam_binding" "project" {
+  project = var.gcp_project
+  role    = "roles/firebase.admin"
+
+  members = [
+    join(":", list("serviceAccount", google_service_account.this.email))
+  ]
+}
 resource "google_compute_instance" "vm-instance" {
   name         = "momonabot"
   machine_type = "n1-standard-1"

@@ -1,7 +1,7 @@
 const TWEET = require('../tweet/tweet_with_image.js');
 const ELINE = require('../eline/fetch_eline.js');
-const MONGO = require('../mongo/mongo.js');
 const request = require('request');
+const FIRESTORE = require('../firestore/firestore.js');
 const fs = require('fs');
 const process = require('process');
 const eline_angerme_url = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
@@ -24,10 +24,10 @@ function imageSave(x) {
 
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
-    var result = await MONGO.findElineResult(x);
+    var result = await FIRESTORE.findElineResult(x.url);
     var willTweet = process.argv[2];
     if(result == null) {
-      await MONGO.addElineResult(x);
+      await FIRESTORE.addElineResult(x);
       if(willTweet) {
         await TWEET.post(getTweetText(x), [ x.name ]);
       } else {

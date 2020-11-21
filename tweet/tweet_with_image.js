@@ -1,5 +1,5 @@
 var Twitter = require('twitter');
-const credential = require('../credential.js');
+const credential = require('../secret/credential.js');
 
 var client = new Twitter({
     consumer_key: credential.keys.consumer_key,
