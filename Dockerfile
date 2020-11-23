@@ -19,13 +19,7 @@ RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     apt update && \
     apt-get install -y google-chrome-stable
-RUN npm install request
-RUN npm install fs
-RUN npm install puppeteer
-RUN npm install puppeteer-core
-RUN npm install twitter
-RUN npm install -g mocha
-RUN npm install chai
 COPY ./ /
+RUN npm install
 #ENTRYPOINT [ "/bin/bash", "run.sh" ]
 ENTRYPOINT [ "/bin/bash" ]
