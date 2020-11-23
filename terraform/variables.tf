@@ -5,7 +5,7 @@ variable "default_zone" {
   default = "asia-northeast1-a"
 }
 variable "default_region" {
-  default = "asia-northeast1-a"
+  default = "asia-northeast1"
 }
 variable "time_zone" {
   default = "Asia/Tokyo"
