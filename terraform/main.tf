@@ -107,7 +107,7 @@ resource "google_cloud_scheduler_job" "startup" {
   pubsub_target {
     # topic.id is the topic's full resource name.
     topic_name = google_pubsub_topic.start-instance-event.id
-    data       = base64encode("{\"zone\":\"asia-northeast1-c\",\"label\":\"env=tweet\"}")
+    data       = base64encode("{\"zone\":\"asia-northeat1-a\",\"label\":\"env=tweet\"}")
   }
 }
 
@@ -119,6 +119,6 @@ resource "google_cloud_scheduler_job" "shutdown" {
   pubsub_target {
     # topic.id is the topic's full resource name.
     topic_name = google_pubsub_topic.stop-instance-event.id
-    data       = base64encode("{\"zone\":\"asia-northeast1-c\",\"label\":\"env=tweet\"}")
+    data       = base64encode("{\"zone\":\"asia-northeast1-a\",\"label\":\"env=tweet\"}")
   }
 }
