@@ -101,7 +101,7 @@ resource "google_cloudfunctions_function" "stopInstancePubSub" {
 
 resource "google_cloud_scheduler_job" "startup" {
   name      = "startup"
-  schedule  = "0 12 * * *"
+  schedule  = "0 12-23 * * *"
   time_zone = var.time_zone
 
   pubsub_target {
