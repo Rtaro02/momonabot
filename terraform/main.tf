@@ -4,6 +4,12 @@ provider "google" {
   zone    = var.default_zone
 }
 
+provider "google-beta" {
+  project = var.gcp_project
+  region  = var.default_region
+  zone    = var.default_zone
+}
+
 # You have to do following actions.
 #
 # 1. Add GCP Project for momonabot, and you may be able to add role/owner to your main google account.
@@ -32,7 +38,7 @@ resource "google_project_iam_binding" "project" {
 }
 resource "google_compute_instance" "vm-instance" {
   name         = "momonabot"
-  machine_type = "n1-standard-1"
+  machine_type = "e2-medium"
   labels = {
     env = "tweet"
   }
