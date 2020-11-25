@@ -1,7 +1,7 @@
 const TWEET = require('../tweet/tweet.js');
 const FC = require('../hello/fetch_fcnews.js');
 const HP = require('../hello/fetch_hpnews.js');
-const MONGO = require('../mongo/mongo.js');
+const FIRESTORE = require('../firestore/firestore.js');
 const process = require('process');
 const hp_news_url = 'http://www.helloproject.com/news/';
 const fc_news_url = 'https://www.up-fc.jp/helloproject/news.php';
@@ -12,10 +12,10 @@ function getTweetText(x) {
 
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
-    var result = await MONGO.findHpfcResult(x);
+    var result = await FIRESTORE.findHpFcResult(x.url);
     var willTweet = process.argv[2];
     if(result == null) {
-      await MONGO.addHpfcResult(x);
+      await FIRESTORE.addHpFcResult(x);
       if(willTweet) {
         await TWEET.post(getTweetText(x));
       } else {

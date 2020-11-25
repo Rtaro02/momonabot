@@ -1,7 +1,7 @@
 const TWEET = require('../tweet/tweet_with_image.js');
 const INSTAGRAM = require('../instagram/fetch_instagram.js');
 const URL = 'https://www.instagram.com/accounts/login/?next=/angerme_official/';
-const MONGO = require('../mongo/mongo.js');
+const FIRESTORE = require('../firestore/firestore.js');
 const process = require('process');
 
 function getTweetText(url) {
@@ -10,10 +10,10 @@ function getTweetText(url) {
 
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
-    var result = await MONGO.findInstagramResult({url: x.url});
+    var result = await FIRESTORE.findInstagramResult(x.url);
     var willTweet = process.argv[2];
     if(result == null) {
-      await MONGO.addInstagramResult({url: x.url});
+      await FIRESTORE.addInstagramResult({url: x.url});
       if(willTweet) {
         await TWEET.post(getTweetText(x.url), x.images);
       } else {
