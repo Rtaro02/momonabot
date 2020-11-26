@@ -72,7 +72,7 @@ resource "google_pubsub_topic" "stop-instance-event" {
 resource "google_storage_bucket" "bucket" {
   name          = "momonabot"
   location      = var.default_region
-  storage_class = "standard"
+  storage_class = "STANDARD"
 }
 
 resource "google_storage_bucket_object" "archive" {
@@ -82,8 +82,9 @@ resource "google_storage_bucket_object" "archive" {
 }
 
 resource "google_cloudfunctions_function" "startInstancePubSub" {
-  name    = "startInstancePubSub"
-  runtime = var.runtime
+  name        = "startInstancePubSub"
+  entry_point = "startInstancePubSub"
+  runtime     = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
@@ -94,8 +95,9 @@ resource "google_cloudfunctions_function" "startInstancePubSub" {
 }
 
 resource "google_cloudfunctions_function" "stopInstancePubSub" {
-  name    = "stopInstancePubSub"
-  runtime = var.runtime
+  name        = "stopInstancePubSub"
+  entry_point = "stopInstancePubSub"
+  runtime     = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
