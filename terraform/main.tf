@@ -4,6 +4,12 @@ provider "google" {
   zone    = var.default_zone
 }
 
+provider "google-beta" {
+  project = var.gcp_project
+  region  = var.default_region
+  zone    = var.default_zone
+}
+
 # You have to do following actions.
 #
 # 1. Add GCP Project for momonabot, and you may be able to add role/owner to your main google account.
@@ -32,7 +38,7 @@ resource "google_project_iam_binding" "project" {
 }
 resource "google_compute_instance" "vm-instance" {
   name         = "momonabot"
-  machine_type = "n1-standard-1"
+  machine_type = "e2-medium"
   labels = {
     env = "tweet"
   }
@@ -66,7 +72,7 @@ resource "google_pubsub_topic" "stop-instance-event" {
 resource "google_storage_bucket" "bucket" {
   name          = "momonabot"
   location      = var.default_region
-  storage_class = "standard"
+  storage_class = "STANDARD"
 }
 
 resource "google_storage_bucket_object" "archive" {
@@ -76,8 +82,9 @@ resource "google_storage_bucket_object" "archive" {
 }
 
 resource "google_cloudfunctions_function" "startInstancePubSub" {
-  name    = "startInstancePubSub"
-  runtime = var.runtime
+  name        = "startInstancePubSub"
+  entry_point = "startInstancePubSub"
+  runtime     = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
@@ -88,8 +95,9 @@ resource "google_cloudfunctions_function" "startInstancePubSub" {
 }
 
 resource "google_cloudfunctions_function" "stopInstancePubSub" {
-  name    = "stopInstancePubSub"
-  runtime = var.runtime
+  name        = "stopInstancePubSub"
+  entry_point = "stopInstancePubSub"
+  runtime     = var.runtime
 
   source_archive_bucket = google_storage_bucket.bucket.name
   source_archive_object = google_storage_bucket_object.archive.name
@@ -101,7 +109,7 @@ resource "google_cloudfunctions_function" "stopInstancePubSub" {
 
 resource "google_cloud_scheduler_job" "startup" {
   name      = "startup"
-  schedule  = "0 12 * * *"
+  schedule  = "0 12-23 * * *"
   time_zone = var.time_zone
 
   pubsub_target {
