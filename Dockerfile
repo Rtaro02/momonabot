@@ -21,5 +21,5 @@ RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc
     apt-get install -y google-chrome-stable
 COPY ./ /
 RUN npm install
-#ENTRYPOINT [ "/bin/bash", "run.sh" ]
+
 ENTRYPOINT [ "/bin/bash" ]

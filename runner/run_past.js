@@ -5,7 +5,7 @@ function getTweetText(url, title, delta) {
   return delta + '年前の笠原桃奈ちゃんのブログです\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
-(async() => {
+exports.run = async function() {
   var date = new Date();
   var blogs = await AMEBA.fetch_old_momona_post(date);
   if (blogs.length != 0) {
@@ -13,4 +13,4 @@ function getTweetText(url, title, delta) {
       TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta));
     }
   }
-})();
+}
