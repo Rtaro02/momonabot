@@ -65,7 +65,7 @@ function getTweetText(url, title) {
   return '他のメンバーがブログで笠原桃奈ちゃんに触れています\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
-exports.tweet = async function(numbers) {
+exports.run = async function(numbers) {
   var blog = await OTHER.fetch_other_members(URLS[numbers]);
   if (blog != null) {
     // This blog include momona episode.

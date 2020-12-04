@@ -8,7 +8,7 @@ function getTweetText(url, title) {
   return 'アンジュルム メンバー『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
-exports.tweet = async function() {
+exports.run = async function() {
   var blog = await AMEBA.fetch(MOMONA_URL);
   var image_names = await IMAGE.save(blog.url);
   var result = await FIRESTORE.findAmebaResult(blog.url);
