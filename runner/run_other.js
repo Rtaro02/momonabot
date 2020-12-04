@@ -1,7 +1,6 @@
 const TWEET = require('../tweet/tweet.js');
 const OTHER = require('../ameba/fetch_other_members.js');
 const FIRESTORE = require('../firestore/firestore.js');
-const process = require('process');
 
 const URLS = [
   'https://ameblo.jp/angerme-amerika/theme-10087142424.html', // Akari Takeuchi
@@ -13,6 +12,9 @@ const URLS = [
   'https://ameblo.jp/angerme-new/theme-10108008037.html', // Haruka Ota
   'https://ameblo.jp/angerme-new/theme-10108008043.html', // Layla Ise
   'https://ameblo.jp/angerme-new/theme-10109826701.html', // Rin Hashisako
+  'https://ameblo.jp/angerme-new/theme-10113863093.html', // Rin Kawana
+  'https://ameblo.jp/angerme-new/theme-10113863094.html', // Shion Tamenaga
+  'https://ameblo.jp/angerme-new/theme-10113863095.html', // Wakana Matsumoto
   'https://ameblo.jp/morningmusume-9ki/theme-10059757620.html', // Mizuki Fukumura
   'https://ameblo.jp/morningmusume-9ki/theme-10059751724.html', // Erina Ikuta
   'https://ameblo.jp/morningmusume-10ki/theme-10059753284.html', // Ayumi Ishida
@@ -63,22 +65,16 @@ function getTweetText(url, title) {
   return '他のメンバーがブログで笠原桃奈ちゃんに触れています\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
-(async() => {
-  var blog = await OTHER.fetch_other_members(URLS[process.argv[2]]);
+exports.tweet = async function(numbers) {
+  var blog = await OTHER.fetch_other_members(URLS[numbers]);
   if (blog != null) {
     // This blog include momona episode.
     var result = await FIRESTORE.findAmebaResult(blog.url);
-    var willTweet = process.argv[3];
     if(result == null) {
-      // Have not posted yet.
       await FIRESTORE.addAmebaResult(blog);
-      if(willTweet) {
-        TWEET.post(getTweetText(blog.url, blog.title));
-      } else {
-        console.log(new Date() + ' tweet was skipped by user.');
-      }
+      TWEET.post(getTweetText(blog.url, blog.title));
     } else {
       console.log(new Date() + ' ' + result.title + ' was already posted. ');
     }
   }
-})();
+}
