@@ -7,15 +7,6 @@ variable "default_zone" {
 variable "default_region" {
   default = "asia-northeast1"
 }
-variable "time_zone" {
-  default = "Asia/Tokyo"
-}
-variable "runtime" {
-  default = "nodejs10"
-}
-variable "start_topic" {
-  default = "start-instance-event"
-}
-variable "stop_topic" {
-  default = "stop-instance-event"
+variable "gcr_uri" {
+  default = "gcr.io/momonabot/momonabot@sha256:6d58879e05d10a38df4f319a8c46cfc26245ee3864b69191689e58c702a13401"
 }

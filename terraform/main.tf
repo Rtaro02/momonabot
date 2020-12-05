@@ -10,21 +10,21 @@ provider "google-beta" {
   zone    = var.default_zone
 }
 
-# You have to do following actions.
-#
-# 1. Add GCP Project for momonabot, and you may be able to add role/owner to your main google account.
-# 2. Create GCS bucket with name defined in this tffile.
-# 3. Enable Firestore (Don't select Datastore because Datastore is not free quota).
-
 terraform {
   backend "gcs" {
     bucket = "momonabot-tfstate"
   }
 }
 
-resource "google_service_account" "this" {
+resource "google_service_account" "firestore" {
   account_id   = "momonabot-firestore-sa"
   display_name = "momonabot firestore"
+  project      = var.gcp_project
+}
+
+resource "google_service_account" "cloudrun" {
+  account_id   = "momonabot-cloudrun-sa"
+  display_name = "momonabot cloudrun"
   project      = var.gcp_project
 }
 
@@ -33,100 +33,107 @@ resource "google_project_iam_binding" "project" {
   role    = "roles/firebase.admin"
 
   members = [
-    join(":", list("serviceAccount", google_service_account.this.email))
+    join(":", list("serviceAccount", google_service_account.firestore.email))
   ]
 }
-resource "google_compute_instance" "vm-instance" {
-  name         = "momonabot"
-  machine_type = "e2-medium"
-  labels = {
-    env = "tweet"
-  }
-  boot_disk {
-    initialize_params {
-      size  = 10
-      type  = "pd-standard"
-      image = "debian-cloud/debian-10"
+
+resource "google_cloud_run_service" "this" {
+  name                       = "momonabot"
+  location                   = "us-central1"
+  autogenerate_revision_name = true
+
+  template {
+    spec {
+      containers {
+        image = var.gcr_uri
+        ports {
+          container_port = 8080
+        }
+        resources {
+          limits = map(
+            "cpu", "1000m",
+            "memory", "1024Mi"
+          )
+        }
+      }
     }
   }
-  scheduling {
-    preemptible       = true
-    automatic_restart = false
-  }
-  network_interface {
-    network = "default"
-    access_config {
-    }
-  }
-  metadata_startup_script = "sudo apt-get install -y git && git clone https://github.com/Rtaro02/docker-installer.git && bash docker-installer/install.sh"
 }
 
-resource "google_pubsub_topic" "start-instance-event" {
-  name = var.start_topic
+resource "google_cloud_run_service_iam_member" "this" {
+  location = google_cloud_run_service.this.location
+  project = google_cloud_run_service.this.project
+  service = google_cloud_run_service.this.name
+  role = "roles/viewer"
+  member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
 }
 
-resource "google_pubsub_topic" "stop-instance-event" {
-  name = var.stop_topic
+module "ameba-momona-am" {
+  source = "./module"
+
+  name     = "ameba-momona-am"
+  schedule = "*/5 12-23 * * *"
+  path     = "/ameba/momona"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_storage_bucket" "bucket" {
-  name          = "momonabot"
-  location      = var.default_region
-  storage_class = "STANDARD"
+module "ameba-momona-pm" {
+  source = "./module"
+
+  name     = "ameba-momona-pm"
+  schedule = "*/5 0-2 * * *"
+  path     = "/ameba/momona"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_storage_bucket_object" "archive" {
-  name   = "scheduleinstance.zip"
-  bucket = google_storage_bucket.bucket.name
-  source = "./scheduleinstance.zip"
+module "ameba-others" {
+  source = "./module"
+
+  name     = "ameba-others"
+  schedule = "*/5 12-23 * * *"
+  path     = "/ameba/others"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_cloudfunctions_function" "startInstancePubSub" {
-  name        = "startInstancePubSub"
-  entry_point = "startInstancePubSub"
-  runtime     = var.runtime
+module "ameba-past" {
+  source = "./module"
 
-  source_archive_bucket = google_storage_bucket.bucket.name
-  source_archive_object = google_storage_bucket_object.archive.name
-  event_trigger {
-    event_type = "providers/cloud.pubsub/eventTypes/topic.publish"
-    resource   = var.start_topic
-  }
+  name     = "ameba-past"
+  schedule = "30 12 * * *"
+  path     = "/ameba/past"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_cloudfunctions_function" "stopInstancePubSub" {
-  name        = "stopInstancePubSub"
-  entry_point = "stopInstancePubSub"
-  runtime     = var.runtime
+module "eline" {
+  source = "./module"
 
-  source_archive_bucket = google_storage_bucket.bucket.name
-  source_archive_object = google_storage_bucket_object.archive.name
-  event_trigger {
-    event_type = "providers/cloud.pubsub/eventTypes/topic.publish"
-    resource   = var.stop_topic
-  }
+  name     = "eline"
+  schedule = "*/5 12-23 * * *"
+  path     = "/eline"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_cloud_scheduler_job" "startup" {
-  name      = "startup"
-  schedule  = "0 12-23 * * *"
-  time_zone = var.time_zone
+module "hpfc" {
+  source = "./module"
 
-  pubsub_target {
-    # topic.id is the topic's full resource name.
-    topic_name = google_pubsub_topic.start-instance-event.id
-    data       = base64encode("{\"zone\":\"asia-northeast1-a\",\"label\":\"env=tweet\"}")
-  }
+  name     = "hpfc"
+  schedule = "*/5 12-23 * * *"
+  path     = "/hpfc"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
 
-resource "google_cloud_scheduler_job" "shutdown" {
-  name      = "shutdown"
-  schedule  = "0 0 * * *"
-  time_zone = var.time_zone
+module "instagram" {
+  source = "./module"
 
-  pubsub_target {
-    # topic.id is the topic's full resource name.
-    topic_name = google_pubsub_topic.stop-instance-event.id
-    data       = base64encode("{\"zone\":\"asia-northeast1-a\",\"label\":\"env=tweet\"}")
-  }
+  name     = "instagram"
+  schedule = "0 12-23 * * *"
+  path     = "/instagram"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
 }
