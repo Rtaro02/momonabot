@@ -8,6 +8,7 @@
         "puppeteer-core": "5.5.0",
         "request": "*",
         "twitter": "*",
-        "firebase-admin": "9.4.1"
+        "firebase-admin": "9.4.1",
+        "express": "4.17.1"
     }
 }

@@ -28,11 +28,11 @@ function tweet(x) {
   });
 }
 
-(async() => {
+exports.run = async function() {
   var list = await HP.fetch(hp_news_url);
   list = list.concat(await FC.fetch(fc_news_url));
   var myPromise = Promise.resolve();
   for(var x of list) {
     myPromise = myPromise.then(tweet.bind(this, x));
   }
-})();
+}

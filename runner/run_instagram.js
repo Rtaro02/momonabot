@@ -26,10 +26,10 @@ function tweet(x) {
   });
 }
 
-(async() => {
-    var instagrams = await INSTAGRAM.fetch(URL);
-    var myPromise = Promise.resolve();
-    for(var i of instagrams) {
-      myPromise = myPromise.then(tweet.bind(this, i));
-    }
-})();
+exports.run = async function() {
+  var instagrams = await INSTAGRAM.fetch(URL);
+  var myPromise = Promise.resolve();
+  for(var i of instagrams) {
+    myPromise = myPromise.then(tweet.bind(this, i));
+  }
+}

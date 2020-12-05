@@ -4,7 +4,7 @@ const request = require('request');
 const FIRESTORE = require('../firestore/firestore.js');
 const fs = require('fs');
 const process = require('process');
-const eline_angerme_url = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
+const ELINE_ANGERME_URL = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
 const FINAL_PAGE = 3;
 
 function getTweetText(x) {
@@ -40,11 +40,10 @@ function tweet(x) {
   });
 }
 
-(async() => {
-    var list = await ELINE.fetch(eline_angerme_url, FINAL_PAGE);
-    // console.log(list);
-    var myPromise = Promise.resolve();
-    for(var x of list) {
-      myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet);
-    }
-})();
+exports.run = async function() {
+  var list = await ELINE.fetch(ELINE_ANGERME_URL, FINAL_PAGE);
+  var myPromise = Promise.resolve();
+  for(var x of list) {
+    myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet);
+  }
+}

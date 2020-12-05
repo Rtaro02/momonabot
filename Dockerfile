@@ -12,14 +12,14 @@ RUN apt-get install -y git
 RUN apt-get install -y curl
 RUN apt-get install -y vim
 RUN sudo npm install n -g && \
-    sudo n stable && \
-    sudo apt-get purge -y nodejs npm
+    sudo n stable
 
 RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     apt update && \
     apt-get install -y google-chrome-stable
-COPY ./ /
+COPY . .
 RUN npm install
-#ENTRYPOINT [ "/bin/bash", "run.sh" ]
-ENTRYPOINT [ "/bin/bash" ]
+
+ENTRYPOINT [ "node" ]
+CMD [ "./index.js" ]
