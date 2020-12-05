@@ -1,4 +1,5 @@
 .git
 datadir
 terraform
+terraform-gke
 node_modules
