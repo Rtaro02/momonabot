@@ -1,5 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "momonabot-gke-tfstate"
+    bucket = "momonabot-tfstate"
+    prefix  = "terraform/gke"
   }
 }

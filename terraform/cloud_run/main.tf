@@ -58,21 +58,11 @@ resource "google_cloud_run_service_iam_member" "this" {
   member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
 }
 
-module "ameba-momona-am" {
+module "ameba-momona" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-momona-am"
+  name     = "ameba-momona"
   schedule = "*/5 12-23 * * *"
-  path     = "/ameba/momona"
-  cloudrun = google_cloud_run_service.this.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-momona-pm" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-momona-pm"
-  schedule = "*/5 0-2 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
