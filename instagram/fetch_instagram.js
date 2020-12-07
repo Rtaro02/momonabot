@@ -27,17 +27,17 @@ exports.fetch = async function(url, number_of_article) {
 
     // Login Page
     await page.goto(url, {waitUntil: 'domcontentloaded'});
-    await page.waitFor(3000);
+    // await page.waitFor(3000);
     await page.type('input[name="username"]', credential.username);
     await page.type('input[name="password"]', credential.password);
     const button = await page.$('button[type=submit]');
     await button.click();
-    await page.waitFor(10000);
+    // await page.waitFor(10000);
 
     // Submit Page
     var buttons = await page.$('button[type=button]');
     await buttons.click();
-    await page.waitFor(10000);
+    // await page.waitFor(10000);
 
     // Mainpage
     var items = await page.$$('article > div > div > div > div');
@@ -58,7 +58,7 @@ exports.fetch = async function(url, number_of_article) {
       var insta_post = {};
       insta_post.url = list[n];
       await page.goto(list[n], {waitUntil: 'domcontentloaded'});
-      await page.waitFor(1500);
+      // await page.waitFor(1500);
       var whole = await page.$$('article > div');
       sentences = await whole[2].$$('div > ul > div > li > div > div > div');
       insta_post.sentence = (await (await sentences[1].getProperty('textContent')).jsonValue()).replace(/^angerme_officialVerified/, '');

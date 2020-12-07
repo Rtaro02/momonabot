@@ -44,3 +44,4 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`momonabot: listening on port ${port}`);
 });
+app_server.timeout = 1000 * 60 * 10;

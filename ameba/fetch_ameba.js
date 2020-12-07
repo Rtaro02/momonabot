@@ -12,7 +12,7 @@ exports.fetch = async function(url) {
     });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'domcontentloaded'});
-    await page.waitFor(1500);
+    // await page.waitFor(1500);
 
     var items = await page.$$(dom_structure);
 
@@ -85,6 +85,7 @@ exports.fetch_old_momona_post = async function(date) {
   var blogs = [];
   while(true) {
     var year = base_year - time_delta;
+    console.log(year + "年のブログを探索中...");
     // 桃奈ちゃんの加入は2016年
     if(year < 2016) {
         break;
@@ -95,7 +96,7 @@ exports.fetch_old_momona_post = async function(date) {
     while(true) {
       var url = baseurl + pageNo + "-" + year + month + ".html"
       await page.goto(url, {waitUntil: 'domcontentloaded'});
-      await page.waitFor(1500);
+      // await page.waitForTimeout(1500);
 
       var items = await page.$$('li.skin-borderQuiet');
 

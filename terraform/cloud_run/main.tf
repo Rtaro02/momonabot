@@ -41,11 +41,12 @@ resource "google_cloud_run_service" "this" {
         }
         resources {
           limits = map(
-            "cpu", "1000m",
-            "memory", "1024Mi"
+            "cpu", "2000m",
+            "memory", "4096Mi"
           )
         }
       }
+      timeout_seconds = 600
     }
   }
 }
@@ -62,7 +63,7 @@ module "ameba-momona" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-momona"
-  schedule = "*/5 12-23 * * *"
+  schedule = "*/5 13-23 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -72,7 +73,7 @@ module "ameba-others" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-others"
-  schedule = "*/5 12-23 * * *"
+  schedule = "*/10 18-23 * * *"
   path     = "/ameba/others"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -92,7 +93,7 @@ module "eline" {
   source = "../module/cloud_scheduler"
 
   name     = "eline"
-  schedule = "*/5 12-23 * * *"
+  schedule = "*/10 12-18 * * *"
   path     = "/eline"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -102,18 +103,18 @@ module "hpfc" {
   source = "../module/cloud_scheduler"
 
   name     = "hpfc"
-  schedule = "*/5 12-23 * * *"
+  schedule = "*/10 12-20 * * *"
   path     = "/hpfc"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
-module "instagram" {
-  source = "../module/cloud_scheduler"
+# module "instagram" {
+#   source = "../module/cloud_scheduler"
 
-  name     = "instagram"
-  schedule = "0 12-23 * * *"
-  path     = "/instagram"
-  cloudrun = google_cloud_run_service.this.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
+#   name     = "instagram"
+#   schedule = "0 12-23 * * *"
+#   path     = "/instagram"
+#   cloudrun = google_cloud_run_service.this.status[0].url
+#   service_account_email = google_service_account.cloudrun.email
+# }

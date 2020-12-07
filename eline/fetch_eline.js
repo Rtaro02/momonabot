@@ -12,7 +12,7 @@ async function load(url) {
     });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'domcontentloaded'});
-    await page.waitFor(1500);
+    // await page.waitFor(1500);
 
     var items = await page.$$(dom_structure);
     var list = [];
