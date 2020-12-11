@@ -59,32 +59,82 @@ resource "google_cloud_run_service_iam_member" "this" {
   member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
 }
 
-module "ameba-momona" {
+module "ameba-momona-1" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-momona"
+  name     = "ameba-momona-1"
   schedule = "*/5 13-23 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
-module "ameba-others" {
+module "ameba-momona-2" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-others"
-  schedule = "*/10 18-23 * * *"
+  name     = "ameba-momona-2"
+  schedule = "*/5 0-1 * * *"
+  path     = "/ameba/momona"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-others-1" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-others-1"
+  schedule = "*/5 18-23 * * *"
   path     = "/ameba/others"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
-module "ameba-past" {
+module "ameba-others-2" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-others-2"
+  schedule = "*/5 0-1 * * *"
+  path     = "/ameba/others"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2016" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past-2016"
   schedule = "30 12 * * *"
-  path     = "/ameba/past"
+  path     = "/ameba/past/2016"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2017" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past-2017"
+  schedule = "30 12 * * *"
+  path     = "/ameba/past/2017"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2018" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past-2018"
+  schedule = "30 12 * * *"
+  path     = "/ameba/past/2018"
+  cloudrun = google_cloud_run_service.this.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2019" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past-2019"
+  schedule = "30 12 * * *"
+  path     = "/ameba/past/2019"
   cloudrun = google_cloud_run_service.this.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
