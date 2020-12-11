@@ -24,12 +24,12 @@ async function load(url, searchWord) {
     });
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'domcontentloaded'});
-    await page.waitFor(1500);
+    // await page.waitFor(1500);
     if(searchWord) {
       await page.type('input[name="HP_NEWS_SearchWord"]', searchWord);
       const button = await page.$('p.f-R > button');
       await button.click();
-      await page.waitFor(1500);
+      // await page.waitFor(1500);
     }
 
     var items = await page.$$(dom_structure);

@@ -20,8 +20,8 @@ app.get('/ameba/others', async (req, res) => {
     res.send("accepted");
 });
 
-app.get('/ameba/past', async (req, res) => {
-    await ameba_past.run();
+app.get('/ameba/past/:year', async (req, res) => {
+    await ameba_past.run(req.params.year);
     res.send("accepted");
 });
 
@@ -44,3 +44,4 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`momonabot: listening on port ${port}`);
 });
+app.timeout = 1000 * 60 * 10;
