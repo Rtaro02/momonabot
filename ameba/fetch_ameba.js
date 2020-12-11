@@ -67,7 +67,7 @@ function getPadding(x) {
   return time;
 }
 
-exports.fetch_old_momona_post = async function(date) {
+exports.fetch_old_momona_post = async function(date, target_year) {
   var base_year = date.getFullYear();
   var month = getPadding(date.getMonth() + 1);
   var day = getPadding(date.getDate());
@@ -81,62 +81,55 @@ exports.fetch_old_momona_post = async function(date) {
     ]
   });
   const page = await browser.newPage();
-  var time_delta = 1;
+  var time_delta = base_year - target_year;
   var blogs = [];
+  var year = target_year;
+  console.log(year + "年のブログを探索中...");
+  var previousUrl = "";
+  var end_flag = false;
+  var pageNo = 1;
   while(true) {
-    var year = base_year - time_delta;
-    console.log(year + "年のブログを探索中...");
-    // 桃奈ちゃんの加入は2016年
-    if(year < 2016) {
-        break;
-    }
-    var previousUrl = "";
-    var end_flag = false;
-    var pageNo = 1;
-    while(true) {
-      var url = baseurl + pageNo + "-" + year + month + ".html"
-      await page.goto(url, {waitUntil: 'domcontentloaded'});
-      // await page.waitForTimeout(1500);
+    var url = baseurl + pageNo + "-" + year + month + ".html"
+    await page.goto(url, {waitUntil: 'domcontentloaded'});
+    // await page.waitForTimeout(1500);
 
-      var items = await page.$$('li.skin-borderQuiet');
+    var items = await page.$$('li.skin-borderQuiet');
 
-      var flag = true;
-      for(var i = 0; i < items.length; i++) {
-        var blog = {};
-        var item = items[i];
-        var urlItem = await item.$('h2 > a');
-        var timeItem = await item.$('p.skin-textQuiet');
-        var authorItem = await item.$('dd.skin-textQuiet > a');
-        if(!!urlItem && !!timeItem) {
-          blog.url = await (await urlItem.getProperty('href')).jsonValue();
-          blog.title = await (await urlItem.getProperty('textContent')).jsonValue();
-          blog.time = (await (await timeItem.getProperty('textContent')).jsonValue()).replace('NEW!', '');
-          blog.author =  await (await authorItem.getProperty('textContent')).jsonValue();
-          blog.time_delta = time_delta;
-          var blog_date = blog.time.replace(/^\d+-\d+-(\d+) [\d:]+$/, '$1');
-          if(previousUrl == blog.url) {
-            end_flag = true;
-            break;
-          }
-          // 初回のみ書き込む
-          if(flag) {
-            previousUrl = blog.url;
-            flag = false;
-          }
-          regex = /笠原桃奈/;
-          if(regex.test(blog.author) || regex.test(blog.title)) {
-            if(day == blog_date) {
-              blogs.push(blog);
-            }
+    var flag = true;
+    for(var i = 0; i < items.length; i++) {
+      var blog = {};
+      var item = items[i];
+      var urlItem = await item.$('h2 > a');
+      var timeItem = await item.$('p.skin-textQuiet');
+      var authorItem = await item.$('dd.skin-textQuiet > a');
+      if(!!urlItem && !!timeItem) {
+        blog.url = await (await urlItem.getProperty('href')).jsonValue();
+        blog.title = await (await urlItem.getProperty('textContent')).jsonValue();
+        blog.time = (await (await timeItem.getProperty('textContent')).jsonValue()).replace('NEW!', '');
+        blog.author =  await (await authorItem.getProperty('textContent')).jsonValue();
+        blog.time_delta = time_delta;
+        var blog_date = blog.time.replace(/^\d+-\d+-(\d+) [\d:]+$/, '$1');
+        if(previousUrl == blog.url) {
+          end_flag = true;
+          break;
+        }
+        // 初回のみ書き込む
+        if(flag) {
+          previousUrl = blog.url;
+          flag = false;
+        }
+        regex = /笠原桃奈/;
+        if(regex.test(blog.author) || regex.test(blog.title)) {
+          if(day == blog_date) {
+            blogs.push(blog);
           }
         }
       }
-      if(end_flag) {
-        break;
-      }
-      pageNo++;
     }
-    time_delta++;
+    if(end_flag) {
+      break;
+    }
+    pageNo++;
   }
   browser.close();
   return blogs;
