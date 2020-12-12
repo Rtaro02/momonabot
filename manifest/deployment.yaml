@@ -5,7 +5,7 @@ metadata:
 spec:
   replicas: 3
   selector:
-    matchLabels:
+    matchLabels:  
       app: momonabot
   template:
     metadata:
@@ -14,8 +14,6 @@ spec:
     spec:
       containers:
       - name: momonabot
-        image: "gcr.io/momonabot/momonabot:latest"
+        image: gcr.io/momonabot/momonabot:latest
         ports:
         - containerPort: 8080
-      imagePullSecrets:
-          - name: gcr-service-account
