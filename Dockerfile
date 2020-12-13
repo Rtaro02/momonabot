@@ -9,7 +9,8 @@ RUN apk add chromium \
             ca-certificates \
             ttf-freefont \
             nodejs \
-            npm 
+            npm \
+            curl
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser

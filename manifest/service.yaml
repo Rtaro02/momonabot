@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: momonabot-service
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
 spec:
   selector:
     app: momonabot
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - protocol: TCP
     port: 80
