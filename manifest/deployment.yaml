@@ -15,5 +15,6 @@ spec:
       containers:
       - name: momonabot
         image: gcr.io/momonabot/momonabot:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
