@@ -28,8 +28,52 @@ resource "google_project_iam_member" "cloudrun" {
   member = "serviceAccount:${google_service_account.cloudrun.email}"
 }
 
-resource "google_cloud_run_service" "this" {
-  name                       = "momonabot"
+resource "google_cloud_run_service" "momonabot" {
+  for_each = toset([
+    "ameba-momona",  
+    "ameba-others",
+    "eline",  
+    "hpfc",  
+  ])
+  name                       = each.value
+  location                   = "us-central1"
+  autogenerate_revision_name = true
+
+  template {
+    spec {
+      containers {
+        image = var.gcr_uri
+        ports {
+          container_port = 8080
+        }
+        resources {
+          limits = map(
+            "cpu", "1000m",
+            "memory", "2048Mi"
+          )
+        }
+      }
+      timeout_seconds = 600
+    }
+  }
+}
+
+resource "google_cloud_run_service_iam_member" "momonabot" {
+  for_each = toset([
+    "ameba-momona",  
+    "ameba-others",
+    "eline",  
+    "hpfc",  
+  ])
+  location = google_cloud_run_service.momonabot[each.value].location
+  project = google_cloud_run_service.momonabot[each.value].project
+  service = google_cloud_run_service.momonabot[each.value].name
+  role = "roles/editor"
+  member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
+}
+
+resource "google_cloud_run_service" "ameba_past" {
+  name                       = "ameba-past"
   location                   = "us-central1"
   autogenerate_revision_name = true
 
@@ -52,10 +96,10 @@ resource "google_cloud_run_service" "this" {
   }
 }
 
-resource "google_cloud_run_service_iam_member" "this" {
-  location = google_cloud_run_service.this.location
-  project = google_cloud_run_service.this.project
-  service = google_cloud_run_service.this.name
+resource "google_cloud_run_service_iam_member" "ameba_past" {
+  location = google_cloud_run_service.ameba_past.location
+  project = google_cloud_run_service.ameba_past.project
+  service = google_cloud_run_service.ameba_past.name
   role = "roles/editor"
   member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
 }
@@ -66,7 +110,7 @@ module "ameba-momona-1" {
   name     = "ameba-momona-1"
   schedule = "*/5 13-23 * * *"
   path     = "/ameba/momona"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -74,9 +118,9 @@ module "ameba-momona-2" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-momona-2"
-  schedule = "*/5 0-1 * * *"
+  schedule = "*/5 13-23 * * *"
   path     = "/ameba/momona"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -84,9 +128,9 @@ module "ameba-others-1" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-others-1"
-  schedule = "*/5 18-23 * * *"
+  schedule = "*/6 18-23 * * *"
   path     = "/ameba/others"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -94,9 +138,9 @@ module "ameba-others-2" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-others-2"
-  schedule = "*/5 0-1 * * *"
+  schedule = "*/6 18-23 * * *"
   path     = "/ameba/others"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -106,7 +150,7 @@ module "ameba-past-2016" {
   name     = "ameba-past-2016"
   schedule = "30 18 * * *"
   path     = "/ameba/past/2016"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -116,7 +160,7 @@ module "ameba-past-2017" {
   name     = "ameba-past-2017"
   schedule = "32 18 * * *"
   path     = "/ameba/past/2017"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -126,7 +170,7 @@ module "ameba-past-2018" {
   name     = "ameba-past-2018"
   schedule = "34 18 * * *"
   path     = "/ameba/past/2018"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -136,7 +180,7 @@ module "ameba-past-2019" {
   name     = "ameba-past-2019"
   schedule = "36 18 * * *"
   path     = "/ameba/past/2019"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -146,7 +190,7 @@ module "eline" {
   name     = "eline"
   schedule = "*/10 12-18 * * *"
   path     = "/eline"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["eline"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
@@ -154,9 +198,9 @@ module "hpfc" {
   source = "../module/cloud_scheduler"
 
   name     = "hpfc"
-  schedule = "*/10 12-20 * * *"
+  schedule = "*/30 12-21 * * *"
   path     = "/hpfc"
-  cloudrun = google_cloud_run_service.this.status[0].url
+  cloudrun = google_cloud_run_service.momonabot["hpfc"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
 
