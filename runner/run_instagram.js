@@ -11,14 +11,9 @@ function getTweetText(url) {
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findInstagramResult(x.url);
-    var willTweet = process.argv[2];
     if(result == null) {
       await FIRESTORE.addInstagramResult({url: x.url});
-      if(willTweet) {
-        await TWEET.post(getTweetText(x.url), x.images);
-      } else {
-        console.log(new Date() + ' tweet was skipped by user.');
-      }
+      await TWEET.post(getTweetText(x.url), x.images);
     } else {
       console.log(new Date() + ' ' + x.url + ' was already tweeted');
     }

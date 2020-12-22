@@ -13,14 +13,9 @@ function getTweetText(x) {
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findHpFcResult(x.url);
-    var willTweet = process.argv[2];
     if(result == null) {
       await FIRESTORE.addHpFcResult(x);
-      if(willTweet) {
-        await TWEET.post(getTweetText(x));
-      } else {
-        console.log(new Date() + ' tweet was skipped by user.');
-      }
+      TWEET.post(getTweetText(x));
     } else {
       console.log(new Date() + ' ' + result.title + ' was already tweeted');
     }

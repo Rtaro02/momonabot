@@ -25,14 +25,9 @@ function imageSave(x) {
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findElineResult(x.url);
-    var willTweet = process.argv[2];
     if(result == null) {
       await FIRESTORE.addElineResult(x);
-      if(willTweet) {
-        await TWEET.post(getTweetText(x), [ x.name ]);
-      } else {
-        console.log(new Date() + ' tweet was skipped by user.');
-      }
+      await TWEET.post(getTweetText(x), [ x.name ]);
     } else {
       console.log(new Date() + ' ' + result.title + ' was already tweeted');
     }
