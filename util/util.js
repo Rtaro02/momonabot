@@ -19,6 +19,12 @@ exports.isMomonaOrAngermeTopic = function(x) {
     if((/鈴蘭/).test(x)) return false;
     if((/橋迫/).test(x)) return false;
     if((/鈴/).test(x)) return false;
+    if((/川名/).test(x)) return false;
+    if((/凜/).test(x)) return false;
+    if((/為永/).test(x)) return false;
+    if((/幸音/).test(x)) return false;
+    if((/松本/).test(x)) return false;
+    if((/わかな/).test(x)) return false;
     // Maybe Angerme group topic
     return true;
 }
