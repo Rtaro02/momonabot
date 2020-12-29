@@ -118,7 +118,7 @@ module "ameba-momona-2" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-momona-2"
-  schedule = "*/5 13-23 * * *"
+  schedule = "*/5 0-2 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -128,7 +128,7 @@ module "ameba-others-1" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-others-1"
-  schedule = "*/6 18-23 * * *"
+  schedule = "*/30 18-23 * * *"
   path     = "/ameba/others"
   cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -138,7 +138,7 @@ module "ameba-others-2" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-others-2"
-  schedule = "*/6 18-23 * * *"
+  schedule = "*/30 0-2 * * *"
   path     = "/ameba/others"
   cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -188,7 +188,7 @@ module "eline" {
   source = "../module/cloud_scheduler"
 
   name     = "eline"
-  schedule = "*/10 12-18 * * *"
+  schedule = "0 12-18 * * *"
   path     = "/eline"
   cloudrun = google_cloud_run_service.momonabot["eline"].status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -198,7 +198,7 @@ module "hpfc" {
   source = "../module/cloud_scheduler"
 
   name     = "hpfc"
-  schedule = "*/30 12-21 * * *"
+  schedule = "0 12-21 * * *"
   path     = "/hpfc"
   cloudrun = google_cloud_run_service.momonabot["hpfc"].status[0].url
   service_account_email = google_service_account.cloudrun.email
