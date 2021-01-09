@@ -49,7 +49,7 @@ resource "google_cloud_run_service" "momonabot" {
         resources {
           limits = map(
             "cpu", "1000m",
-            "memory", "2048Mi"
+            "memory", "4096Mi"
           )
         }
       }
