@@ -14,8 +14,10 @@ function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findHpFcResult(x.url);
     if(result == null) {
-      await FIRESTORE.addHpFcResult(x);
-      TWEET.post(getTweetText(x));
+      var error = await TWEET.post(getTweetText(x));
+      if(!error) {
+        await FIRESTORE.addHpFcResult(x);
+      }
     } else {
       console.log(new Date() + ' ' + result.title + ' was already tweeted');
     }

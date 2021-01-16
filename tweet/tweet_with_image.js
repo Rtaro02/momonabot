@@ -29,6 +29,11 @@ exports.post = async function(tweet, image_names) {
     console.log(new Date()+ ' tweet success: ' + status.status);
   } catch(e) {
     console.log(e);
+    if(Array.isArray(e) && e.length > 0 && e[0].code) {
+      return null;
+    } else {
+      return e;
+    }
   }
 }
 

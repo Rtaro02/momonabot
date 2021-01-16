@@ -13,8 +13,10 @@ exports.run = async function() {
   var image_names = await IMAGE.save(blog.url);
   var result = await FIRESTORE.findAmebaResult(blog.url);
   if(result == null) {
-    await FIRESTORE.addAmebaResult(blog);
-    await TWEET.post(getTweetText(blog.url, blog.title), image_names);
+    var error = await TWEET.post(getTweetText(blog.url, blog.title), image_names);
+    if(!error) {
+      await FIRESTORE.addAmebaResult(blog);
+    }
   } else {
     console.log(new Date() + ' ' + result.title + ' was already posted. ');
   }

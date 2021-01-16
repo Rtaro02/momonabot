@@ -10,7 +10,7 @@ exports.run = async function(year) {
   var blogs = await AMEBA.fetch_old_momona_post(date, year);
   if (blogs.length != 0) {
     for(var blog of blogs) {
-      TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta));
+      await TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta));
     }
   }
 }

@@ -8,14 +8,16 @@ var client = new Twitter({
     access_token_secret: credential.keys.access_token_secret
 });
 
-exports.post = function(content) {
-  client.post('statuses/update', {status: content}, function(error, tweet, response) {
-    if (!error) {
-      console.log(new Date() + ' tweet success: ' + content);
+exports.post = async function(content) {
+  try {
+    await client.post('statuses/update', {status: content});
+    console.log(new Date()+ ' tweet success: ' + content);
+  } catch(e) {
+    console.log(e)
+    if(Array.isArray(e) && e.length > 0 && e[0].code) {
+      return null;
     } else {
-      console.log(error);
+      return e;
     }
-  });
+  }
 }
-
-

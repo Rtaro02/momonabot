@@ -71,8 +71,10 @@ exports.run = async function(numbers) {
     // This blog include momona episode.
     var result = await FIRESTORE.findAmebaResult(blog.url);
     if(result == null) {
-      await FIRESTORE.addAmebaResult(blog);
-      TWEET.post(getTweetText(blog.url, blog.title));
+      var error = await TWEET.post(getTweetText(blog.url, blog.title));
+      if(!error) {
+        await FIRESTORE.addAmebaResult(blog);
+      }
     } else {
       console.log(new Date() + ' ' + result.title + ' was already posted. ');
     }

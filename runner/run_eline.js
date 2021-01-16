@@ -26,8 +26,10 @@ function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findElineResult(x.url);
     if(result == null) {
-      await FIRESTORE.addElineResult(x);
-      await TWEET.post(getTweetText(x), [ x.name ]);
+      var error = await TWEET.post(getTweetText(x), [ x.name ]);
+      if(!error) {
+        await FIRESTORE.addElineResult(x);
+      }
     } else {
       console.log(new Date() + ' ' + result.title + ' was already tweeted');
     }

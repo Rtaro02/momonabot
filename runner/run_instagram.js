@@ -12,8 +12,10 @@ function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findInstagramResult(x.url);
     if(result == null) {
-      await FIRESTORE.addInstagramResult({url: x.url});
-      await TWEET.post(getTweetText(x.url), x.images);
+      var error = await TWEET.post(getTweetText(x.url), x.images);
+      if(error) {
+        await FIRESTORE.addInstagramResult({url: x.url});
+      }
     } else {
       console.log(new Date() + ' ' + x.url + ' was already tweeted');
     }
