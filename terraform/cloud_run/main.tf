@@ -108,7 +108,7 @@ module "ameba-momona-1" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-momona-1"
-  schedule = "*/5 13-23 * * *"
+  schedule = "*/30 10-23 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -118,7 +118,7 @@ module "ameba-momona-2" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-momona-2"
-  schedule = "*/5 0-2 * * *"
+  schedule = "*/30 0-2 * * *"
   path     = "/ameba/momona"
   cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
   service_account_email = google_service_account.cloudrun.email
