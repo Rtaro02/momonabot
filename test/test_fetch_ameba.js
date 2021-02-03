@@ -44,7 +44,9 @@ describe('過去ブログテスト', function () {
     this.timeout(100000);
     it('0917は19, 18, 17, 16と毎年ブログを投稿している', async function () {
         var date = new Date("2020-09-17");
-        var actual = (await fetch_ameba.fetch_old_momona_post(date));
-        assert.strictEqual(actual.length, 4);
+        for(var year of [2016, 2017, 2018, 2019]) {
+            var actual = (await fetch_ameba.fetch_old_momona_post(date, year));
+            assert.strictEqual(actual.length, 1);
+        }
     });
 });

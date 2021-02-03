@@ -1,4 +1,4 @@
-const TWEET = require('../tweet/tweet.js');
+const TWEET = require('../tweet/tweet_with_image.js');
 const OTHER = require('../ameba/fetch_other_members.js');
 const FIRESTORE = require('../firestore/firestore.js');
 
@@ -69,9 +69,10 @@ exports.run = async function(numbers) {
   var blog = await OTHER.fetch_other_members(URLS[numbers]);
   if (blog != null) {
     // This blog include momona episode.
+    var image_names = await IMAGE.save(blog.url);
     var result = await FIRESTORE.findAmebaResult(blog.url);
     if(result == null) {
-      var error = await TWEET.post(getTweetText(blog.url, blog.title));
+      var error = await TWEET.post(getTweetText(blog.url, blog.title), image_names);
       if(!error) {
         await FIRESTORE.addAmebaResult(blog);
       }
