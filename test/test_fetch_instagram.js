@@ -14,14 +14,13 @@ describe('Instagram挙動確認', function () {
         regex = /^https:\/\/www.instagram.com.*$/;
         assert.strictEqual(regex.test(result[0].url), true);
     });
-    // it('画像が1件以上取得できている', async function () {
-    //     regex = /^https:\/\/www.instagram.com.*$/;
-    //     assert.equal(result[0].images.length > 0, true);
-    // });
-    // it('画像はCDNのURL', async function () {
-    //     regex = /^[a-z0-9_]+.jpg$/;
-    //     assert.equal(regex.test(result[0].images[0]), true);
-    // });
+    it('画像が1件以上取得できている', async function () {
+        assert.strictEqual(result[0].images.length > 0, true);
+    });
+    it('画像はCDNのURL', async function () {
+        regex = /^https:\/\/.*cdninstagram.com.*$/;
+        assert.strictEqual(regex.test(result[0].images[0]), true);
+    });
     // it('件数未指定では3件のインスタ記事が取得できる', async function () {
     //     result = (await fetch_ameba.fetch(URL));
     //     assert.equal(result.length, 3);

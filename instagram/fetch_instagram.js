@@ -14,6 +14,9 @@ function imageSave(url, name) {
 }
 
 exports.fetch = async function(instagram_url, number_of_article) {
+    if(!!number_of_article) {
+      number_of_article = 1
+    }
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
@@ -36,21 +39,28 @@ exports.fetch = async function(instagram_url, number_of_article) {
 
     var items = await page.$$('div[class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"]');
     var result = [];
+    var count = 0;
     for(var item of items) {
-      var a_tag = await item.$('div > div > div > div > a');
+      var fetch_result = await item.$$('div > div > div > div > a');
       // Skip cannot get contents
-      if (a_tag == null || a_tag == undefined) {
+      if (fetch_result.length == 0) {
         continue;
       }
-      var sentence = await(await (await a_tag.getProperty('textContent')).jsonValue());
-      var url = await (await a_tag.getProperty('href')).jsonValue();
+      var sentence = await(await (await fetch_result[0].getProperty('textContent')).jsonValue());
+      var url = await (await fetch_result[0].getProperty('href')).jsonValue();
       // Is Article
       if(/^.*instagram.com\/p\/.*/.test(url) == true) {
+        count++;
+        if()
         var x = {};
         x.url = url;
         x.sentence = sentence;
+
+        x.images = [];
+        x.images[0] = await (await fetch_result[1].getProperty('href')).jsonValue();
+        console.log(x)
+
         result.push(x);
-        break;
       }
     }
 
