@@ -25,7 +25,6 @@ exports.fetch = async function(url) {
         var timeItem = await item.$('p');
         blog.url = await (await urlItem.getProperty('href')).jsonValue();
         blog.title = await (await urlItem.getProperty('textContent')).jsonValue();
-        blog.time = (await (await timeItem.getProperty('textContent')).jsonValue()).replace('NEW!', '');
         break;
       };
       n++;
