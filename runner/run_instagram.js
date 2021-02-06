@@ -2,6 +2,7 @@ const TWEET = require('../tweet/tweet_with_image.js');
 const INSTAGRAM = require('../instagram/fetch_instagram.js');
 const URL = 'https://www.instagram.com/angerme_official/';
 const FIRESTORE = require('../firestore/firestore.js');
+const confirm_include_momona_name = require('../util/util.js').confirm_include_momona_name;
 const request = require('request');
 const fs = require('fs');
 
@@ -39,6 +40,9 @@ exports.run = async function() {
   var instagrams = await INSTAGRAM.fetch(URL, 3);
   var myPromise = Promise.resolve();
   for(var x of instagrams) {
-    myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet);
+    // There are no momona words, skip
+    if(confirm_include_momona_name(x.sentence)){
+      myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet);
+    }
   }
 }

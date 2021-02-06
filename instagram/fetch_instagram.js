@@ -1,7 +1,6 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
-const confirm_include_momona_name = require('../util/util.js').confirm_include_momona_name;
 
 exports.fetch = async function(instagram_url, number_of_article) {
     var number_of_article = !!number_of_article ? number_of_article : 3;
@@ -40,11 +39,6 @@ exports.fetch = async function(instagram_url, number_of_article) {
       if(/^.*instagram.com\/p\/.*/.test(url) == true) {
         if(number_of_article < count){
           break;
-        }
-        // There are no momona words, skip
-        if(!confirm_include_momona_name(sentence)){
-          count++;
-          continue;
         }
         var x = {};
         x.url = url;
