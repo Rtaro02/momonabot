@@ -22,10 +22,5 @@ describe('Instagram挙動確認', function () {
         regex = /^[0-9a-z_]+\.jpg$/;
         assert.strictEqual(regex.test(result[0].image_name), true);
     });
-    it('件数未指定では3件のインスタ記事が取得できる', async function () {
-        result = (await fetch_ameba.fetch(URL));
-        assert.strictEqual(result.length, 3);
-    });
-    
 });
 

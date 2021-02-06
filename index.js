@@ -6,6 +6,7 @@ const ameba_past = require('./runner/run_past.js');
 const eline = require('./runner/run_eline.js');
 const hpfc = require('./runner/run_hpfc.js');
 const instagram = require('./runner/run_instagram.js');
+const instagram_others = require('./runner/run_instagram_others.js');
 const NUMBER_OF_HPMEMBERS = 54;
 
 app.get('/ameba/momona', async (req, res) => {
@@ -35,8 +36,13 @@ app.get('/hpfc', async (req, res) => {
     res.send("accepted");
 });
 
-app.get('/instagram', async (req, res) => {
+app.get('/instagram/angerme', async (req, res) => {
     await instagram.run();
+    res.send("accepted");
+});
+
+app.get('/instagram/others', async (req, res) => {
+    await instagram_others.run();
     res.send("accepted");
 });
 

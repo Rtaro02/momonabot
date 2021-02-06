@@ -3,7 +3,6 @@ const request = require('request');
 const fs = require('fs');
 
 exports.fetch = async function(instagram_url, number_of_article) {
-    var number_of_article = !!number_of_article ? number_of_article : 3;
     const browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
@@ -37,13 +36,14 @@ exports.fetch = async function(instagram_url, number_of_article) {
       var url = await (await fetch_result[0].getProperty('href')).jsonValue();
       // Is Article
       if(/^.*instagram.com\/p\/.*/.test(url) == true) {
+        console.log("Fetched... " + url);
         if(number_of_article < count){
           break;
         }
         var x = {};
         x.url = url;
         // 50文字程度でcut
-        x.sentence = sentence.substring(0, 50);
+        x.sentence = sentence;
 
         x.image_url = await (await fetch_result[1].getProperty('href')).jsonValue();
         x.image_name = x.image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1');
