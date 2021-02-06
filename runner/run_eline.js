@@ -3,7 +3,6 @@ const ELINE = require('../eline/fetch_eline.js');
 const request = require('request');
 const FIRESTORE = require('../firestore/firestore.js');
 const fs = require('fs');
-const process = require('process');
 const ELINE_ANGERME_URL = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
 const FINAL_PAGE = 3;
 
