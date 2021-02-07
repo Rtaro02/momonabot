@@ -50,7 +50,10 @@ exports.run = async function(url = URL, number_of_article = 5, others_flag) {
   for(var x of instagrams) {
     // There are no momona words, skip
     if(confirm_include_momona_name(x.sentence)){
+      console.log("Momona episode was found in " + x.url);
       myPromise = myPromise.then(imageSave.bind(this, x, others_flag)).then(tweet);
+    } else {
+      console.log("There are no episode in " + x.url);
     }
   }
 }
