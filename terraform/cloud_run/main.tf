@@ -222,7 +222,7 @@ module "instagram-others" {
   source = "../module/cloud_scheduler"
 
   name     = "instagram-others"
-  schedule = "0 12-23 * * *"
+  schedule = "0 * * * *"
   path     = "/instagram/others"
   cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
   service_account_email = google_service_account.cloudrun.email
