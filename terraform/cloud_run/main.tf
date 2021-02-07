@@ -32,8 +32,10 @@ resource "google_cloud_run_service" "momonabot" {
   for_each = toset([
     "ameba-momona",  
     "ameba-others",
-    "eline",  
-    "hpfc",  
+    "eline",
+    "hpfc",
+    "instagram",
+    "instagram-others"
   ])
   name                       = each.value
   location                   = "us-central1"
@@ -63,7 +65,9 @@ resource "google_cloud_run_service_iam_member" "momonabot" {
     "ameba-momona",  
     "ameba-others",
     "eline",  
-    "hpfc",  
+    "hpfc",
+    "instagram",
+    "instagram-others"
   ])
   location = google_cloud_run_service.momonabot[each.value].location
   project = google_cloud_run_service.momonabot[each.value].project
@@ -204,12 +208,22 @@ module "hpfc" {
   service_account_email = google_service_account.cloudrun.email
 }
 
-# module "instagram" {
-#   source = "../module/cloud_scheduler"
+module "instagram" {
+  source = "../module/cloud_scheduler"
 
-#   name     = "instagram"
-#   schedule = "0 12-23 * * *"
-#   path     = "/instagram"
-#   cloudrun = google_cloud_run_service.this.status[0].url
-#   service_account_email = google_service_account.cloudrun.email
-# }
+  name     = "instagram"
+  schedule = "*/30 12-23 * * *"
+  path     = "/instagram/angerme"
+  cloudrun = google_cloud_run_service.momonabot["instagram"].status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "instagram-others" {
+  source = "../module/cloud_scheduler"
+
+  name     = "instagram-others"
+  schedule = "0 12-23 * * *"
+  path     = "/instagram/others"
+  cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
