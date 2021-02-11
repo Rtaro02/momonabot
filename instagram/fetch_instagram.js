@@ -21,7 +21,6 @@ exports.fetch = async function(instagram_url, number_of_article) {
     await button.click();
 
     await page.waitFor('button[role="tab"]', { visible: true })
-    await page.screenshot({ path: 'screenshot.png' });
 
     var items = await page.$$('div[class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"]');
     var result = [];

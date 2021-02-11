@@ -18,19 +18,21 @@ function getTweetText(x, others_flag) {
   return sentence;
 }
 
-function imageSave(x, others_flag) {
+function imageSave(x) {
   return new Promise(function(resolve, reject) {
       request({method: 'GET', url: x.image_url, encoding: null}, function (error, response, body) {
         if(!error && response.statusCode === 200){
           fs.writeFileSync(x.image_name, body, 'binary');
         }
-        resolve(x);
+        resolve();
       });
   });
 }
 
-function tweet(x, others_flag) {
+function tweet(args) {
   return new Promise(async function(resolve, reject) {
+    var x = args[0];
+    var others_flag = args[1]
     var result = await FIRESTORE.findInstagramResult(x.url);
     if(result == null) {
       var error = await TWEET.post(getTweetText(x, others_flag), [ x.image_name ]);
@@ -51,7 +53,7 @@ exports.run = async function(url = URL, number_of_article = 5, others_flag) {
     // There are no momona words, skip
     if(confirm_include_momona_name(x.sentence)){
       console.log("Momona episode was found in " + x.url);
-      myPromise = myPromise.then(imageSave.bind(this, x, others_flag)).then(tweet);
+      myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet.bind(this, [x, others_flag]));
     } else {
       console.log("There are no episode in " + x.url);
     }
