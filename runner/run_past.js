@@ -6,16 +6,22 @@ function getTweetText(url, title, delta) {
   return delta + '年前の笠原桃奈ちゃんのブログです\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
+function tweet(blog, image_names) {
+  return new Promise(async function(resolve, reject) {
+    await TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta), image_names);
+    resolve();
+  });
+}
+
 exports.run = async function(year) {
   var date = new Date();
   var blogs = await AMEBA.fetch_old_momona_post(date, year);
   if (blogs.length != 0) {
     for(var blog of blogs) {
-      var image_names = await IMAGE.save(blog.url);
-      var error = true;
-      while(!!error) {
-        error = await TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta), image_names);
-      }
+      var result = await IMAGE.save(blog.url);
+      var myPromise = result.myPromise;
+      var image_names = result.names;
+      myPromise.then(tweet.bind(this, blog, image_names));
     }
   }
 }

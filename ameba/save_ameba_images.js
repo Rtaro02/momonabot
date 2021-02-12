@@ -32,8 +32,8 @@ exports.save = async function(url) {
     await page.goto(url, {waitUntil: 'domcontentloaded'});
     // await page.waitFor(1500);
     var items = await page.$$(dom_structure);
-    var names = [];
     var myPromise = Promise.resolve();
+    var names = [];
     for(var item of items) {
       var i = await item.$('img.PhotoSwipeImage');
       if(i != null) {
@@ -44,5 +44,8 @@ exports.save = async function(url) {
       }
     }
     browser.close();
-    return names;
+    return {
+      names: names,
+      myPromise: myPromise
+    }
 };
