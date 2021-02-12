@@ -14,6 +14,7 @@ function imageSave(url, name) {
       request({method: 'GET', url: url, encoding: null}, function (error, response, body) {
         if(!error && response.statusCode === 200){
           fs.writeFileSync(name, body, 'binary');
+          console.log("Image Saved: " + name);
         }
         resolve();
       });
@@ -35,12 +36,14 @@ exports.save = async function(url) {
     var myPromise = Promise.resolve();
     var names = [];
     for(var item of items) {
-      var i = await item.$('img.PhotoSwipeImage');
-      if(i != null) {
-        var url = (await(await i.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
-        var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
-        names.push(name);
-        myPromise = myPromise.then(imageSave.bind(this, url, name));
+      var images = await item.$$('img.PhotoSwipeImage');
+      if(images != null) {
+        for(image of images) {
+          var url = (await(await image.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
+          var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
+          names.push(name);
+          myPromise = myPromise.then(imageSave.bind(this, url, name));
+        } 
       }
     }
     browser.close();

@@ -66,11 +66,8 @@ function getTweetText(url, title) {
   return '他のメンバーがブログで笠原桃奈ちゃんに触れています\n\n『' + title + '』 #ANGERME #アンジュルム \n' + url;
 }
 
-exports.run = async function(numbers) {
-  var blog = await OTHER.fetch_other_members(URLS[numbers]);
-  if (blog != null) {
-    // This blog include momona episode.
-    var image_names = await IMAGE.save(blog.url);
+function tweet(blog, image_names) {
+  return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findAmebaResult(blog.url);
     if(result == null) {
       var error = await TWEET.post(getTweetText(blog.url, blog.title), image_names);
@@ -80,5 +77,16 @@ exports.run = async function(numbers) {
     } else {
       console.log(new Date() + ' ' + result.title + ' was already posted. ');
     }
+    resolve();
+  });
+}
+
+exports.run = async function(numbers) {
+  var blog = await OTHER.fetch_other_members(URLS[numbers]);
+  if (blog != null) {
+    var result = await IMAGE.save(blog.url);
+    var myPromise = result.myPromise;
+    var image_names = result.names;
+    myPromise.then(tweet.bind(this, blog, image_names));
   }
 }

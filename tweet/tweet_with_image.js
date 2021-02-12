@@ -25,7 +25,7 @@ exports.post = async function(tweet, image_names) {
     media_ids: media_ids
   }
   try {
-    // await client.post('statuses/update', status);
+    await client.post('statuses/update', status);
     console.log(new Date()+ ' tweet success: ' + status.status);
   } catch(e) {
     console.log(e);

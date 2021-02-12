@@ -23,5 +23,7 @@ exports.run = async function(year) {
       var image_names = result.names;
       myPromise.then(tweet.bind(this, blog, image_names));
     }
+  } else {
+    console.log("There are no momona blog at " + year);
   }
 }
