@@ -1,5 +1,5 @@
 var assert = require('assert');
-var fetch_ameba = require('../instagram/fetch_instagram.js');
+var fetch_instagram = require('../instagram/fetch_instagram.js');
 const URL = 'https://www.instagram.com/angerme_official/';
 
 describe('Instagram挙動確認', function () {
@@ -7,7 +7,7 @@ describe('Instagram挙動確認', function () {
     this.timeout(100000);
     var result;
     it('1件のインスタ記事が取得できる', async function () {
-        result = (await fetch_ameba.fetch(URL, 1));
+        result = (await fetch_instagram.fetch(URL, 1));
         assert.strictEqual(result.length, 1);
     });
     it('URLはインスタのもの', async function () {
