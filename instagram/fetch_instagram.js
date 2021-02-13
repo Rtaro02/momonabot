@@ -35,10 +35,10 @@ exports.fetch = async function(instagram_url, number_of_article) {
       var url = await (await fetch_result[0].getProperty('href')).jsonValue();
       // Is Article
       if(/^.*instagram.com\/p\/.*/.test(url) == true) {
-        console.log("Fetched... " + url);
         if(number_of_article < count){
           break;
         }
+        console.log("Fetched... " + url);
         var x = {};
         x.url = url;
         // 50文字程度でcut
