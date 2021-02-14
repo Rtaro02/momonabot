@@ -2,9 +2,6 @@ const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
 
-const dom_structure = 'div.skin-entryBody > div';
-// 繰り返しの時間。Cronの時刻と合わせること
-
 exports.getTweetText = function(url, title) {
   return 'アンジュルム メンバー『' + title + '』' + url;
 }
@@ -32,19 +29,17 @@ exports.save = async function(url) {
     const page = await browser.newPage();
     await page.goto(url, {waitUntil: 'domcontentloaded'});
     // await page.waitFor(1500);
-    var items = await page.$$(dom_structure);
+    var item = await page.$('div.skin-entryBody');
     var myPromise = Promise.resolve();
     var names = [];
-    for(var item of items) {
-      var images = await item.$$('img.PhotoSwipeImage');
-      if(images != null) {
-        for(image of images) {
-          var url = (await(await image.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
-          var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
-          names.push(name);
-          myPromise = myPromise.then(imageSave.bind(this, url, name));
-        } 
-      }
+    var images = await item.$$('img.PhotoSwipeImage');
+    if(images != null) {
+      for(image of images) {
+        var url = (await(await image.getProperty('src')).jsonValue()).replace(/\?caw=\d+/, '');
+        var name = url.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
+        names.push(name);
+        myPromise = myPromise.then(imageSave.bind(this, url, name));
+      } 
     }
     browser.close();
     return {
