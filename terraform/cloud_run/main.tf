@@ -174,7 +174,7 @@ module "ameba-past-2018" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-past-2018"
-  schedule = "33 18 * * *"
+  schedule = "32 18 * * *"
   path     = "/ameba/past/2018"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -184,7 +184,7 @@ module "ameba-past-2019" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-past-2019"
-  schedule = "34 18 * * *"
+  schedule = "33 18 * * *"
   path     = "/ameba/past/2019"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
@@ -194,7 +194,7 @@ module "ameba-past-2020" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-past-2020"
-  schedule = "35 18 * * *"
+  schedule = "34 18 * * *"
   path     = "/ameba/past/2020"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
