@@ -40,7 +40,6 @@ const KANA_KASSA = /[かカｶ][っッｯ][さサｻ]/;
 const KAMIKASA = /[かカｶ][みミﾐ][かカｶ][さサｻ]/;
 
 exports.confirm_include_momona_name = function(honbun) {
-  console.log(honbun)
   if(KANJI_KASAHARA.test(honbun)) return true;
   if(KANJI_MOMONA.test(honbun)) return true;
   if(KANA_KASAHARA.test(honbun)) return true;

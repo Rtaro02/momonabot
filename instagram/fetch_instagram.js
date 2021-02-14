@@ -49,6 +49,7 @@ exports.fetch = async function(instagram_url, number_of_article) {
 
         var image_sentence = await fetch_result[0].$('div > div');
         x.sentence = (await (await (await image_sentence.$('div')).getProperty('textContent')).jsonValue())
+                      .replace(/^[ \.\n]*/, '') // Remove unnecessary prefix.
                       .replace(/Image enclosedinstagram.com.*$/, ''); // Remove unnecessary
         x.image_url =  await (await (await image_sentence.$('img')).getProperty('src')).jsonValue();
         x.image_name = x.image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1');
