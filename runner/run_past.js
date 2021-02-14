@@ -1,4 +1,4 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const IMAGE = require('../ameba/save_ameba_images.js');
 const AMEBA = require('../ameba/fetch_ameba.js');
 
@@ -8,7 +8,7 @@ function getTweetText(url, title, delta) {
 
 function tweet(blog, image_names) {
   return new Promise(async function(resolve, reject) {
-    await TWEET.post(getTweetText(blog.url, blog.title, blog.time_delta), image_names);
+    await TWEET.post_with_images(getTweetText(blog.url, blog.title, blog.time_delta), image_names);
     resolve();
   });
 }

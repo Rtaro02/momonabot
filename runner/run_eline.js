@@ -1,4 +1,4 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const ELINE = require('../eline/fetch_eline.js');
 const request = require('request');
 const FIRESTORE = require('../firestore/firestore.js');
@@ -25,7 +25,7 @@ function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findElineResult(x.url);
     if(result == null) {
-      var error = await TWEET.post(getTweetText(x), [ x.name ]);
+      var error = await TWEET.post_with_images(getTweetText(x), [ x.name ]);
       if(!error) {
         await FIRESTORE.addElineResult(x);
       }

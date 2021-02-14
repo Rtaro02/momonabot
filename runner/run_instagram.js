@@ -1,4 +1,4 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const INSTAGRAM = require('../instagram/fetch_instagram.js');
 const URL = 'https://www.instagram.com/angerme_official/';
 const FIRESTORE = require('../firestore/firestore.js');
@@ -35,7 +35,7 @@ function tweet(args) {
     var others_flag = args[1]
     var result = await FIRESTORE.findInstagramResult(x.url);
     if(result == null) {
-      var error = await TWEET.post(getTweetText(x, others_flag), [ x.image_name ]);
+      var error = await TWEET.post_with_images(getTweetText(x, others_flag), [ x.image_name ]);
       if(!error) {
         await FIRESTORE.addInstagramResult(x);
       }

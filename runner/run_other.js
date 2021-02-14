@@ -1,4 +1,4 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const OTHER = require('../ameba/fetch_other_members.js');
 const IMAGE = require('../ameba/save_ameba_images.js');
 const FIRESTORE = require('../firestore/firestore.js');
@@ -70,7 +70,7 @@ function tweet(blog, image_names) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findAmebaResult(blog.url);
     if(result == null) {
-      var error = await TWEET.post(getTweetText(blog.url, blog.title), image_names);
+      var error = await TWEET.post_with_images(getTweetText(blog.url, blog.title), image_names);
       if(!error) {
         await FIRESTORE.addAmebaResult(blog);
       }
