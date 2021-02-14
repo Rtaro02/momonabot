@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
+const { confirm_include_momona_name } = require('../util/util');
 
 exports.fetch = async function(instagram_url, number_of_article) {
     const browser = await puppeteer.launch({
@@ -26,13 +27,17 @@ exports.fetch = async function(instagram_url, number_of_article) {
     var result = [];
     var count = 1;
     for(var item of items) {
-      var fetch_result = await item.$$('div > div > div > div > a');
+      var fetch_result = await item.$$('div > div > div > div');
       // Skip cannot get contents
-      if (fetch_result.length == 0) {
-        continue;
-      }
-      var sentence = await(await (await fetch_result[0].getProperty('textContent')).jsonValue());
-      var url = await (await fetch_result[0].getProperty('href')).jsonValue();
+      if (fetch_result.length == 0) continue;
+
+      var a_tag = await fetch_result[0].$('a');
+      // Skip there are no a tag.
+      if (a_tag == null || a_tag == undefined) continue;
+
+      // Get URL
+      var url = await (await a_tag.getProperty('href')).jsonValue();
+
       // Is Article
       if(/^.*instagram.com\/p\/.*/.test(url) == true) {
         if(number_of_article < count){
@@ -41,10 +46,11 @@ exports.fetch = async function(instagram_url, number_of_article) {
         console.log("Fetched... " + url);
         var x = {};
         x.url = url;
-        // 50文字程度でcut
-        x.sentence = sentence;
 
-        x.image_url = await (await fetch_result[1].getProperty('href')).jsonValue();
+        var image_sentence = await fetch_result[0].$('div > div');
+        x.sentence = (await (await (await image_sentence.$('div')).getProperty('textContent')).jsonValue())
+                      .replace(/Image enclosedinstagram.com.*$/, ''); // Remove unnecessary
+        x.image_url =  await (await (await image_sentence.$('img')).getProperty('src')).jsonValue();
         x.image_name = x.image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1');
 
         result.push(x);
@@ -53,6 +59,5 @@ exports.fetch = async function(instagram_url, number_of_article) {
     }
 
     browser.close();
-    console.log(result)
     return result;
 };

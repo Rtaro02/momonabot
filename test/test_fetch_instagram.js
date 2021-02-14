@@ -6,9 +6,9 @@ describe('Instagram挙動確認', function () {
     // テストのタイムアウトを10sec.に設定
     this.timeout(100000);
     var result;
-    it('1件のインスタ記事が取得できる', async function () {
-        result = (await fetch_instagram.fetch(URL, 1));
-        assert.strictEqual(result.length, 1);
+    it('4件のインスタ記事が取得できる', async function () {
+        result = (await fetch_instagram.fetch(URL, 4));
+        assert.strictEqual(result.length, 4);
     });
     it('URLはインスタのもの', async function () {
         regex = /^https:\/\/www.instagram.com.*$/;
