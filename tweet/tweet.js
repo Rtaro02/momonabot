@@ -1,5 +1,7 @@
+const { jar } = require('request');
 var Twitter = require('twitter');
 const credential = require('../secret/credential.js');
+const ANGERME_TWITTER_ID = "111066986"
 
 var client = new Twitter({
     consumer_key: credential.keys.consumer_key,
@@ -48,5 +50,34 @@ exports.post_with_images = async function(tweet, image_names) {
     } else {
       return e;
     }
+  }
+}
+
+exports.search = async function(query) {
+  var query_parameter = {
+    q: query,
+    locale: 'ja',
+    lang: 'ja',
+    result_type: 'mixed',
+    count: 100
+  }
+  var search_result = await client.get('search/tweets', query_parameter);
+  var retweet_candidates = []
+  for(var tweet of search_result.statuses) {
+    if(tweet.user.id == ANGERME_TWITTER_ID) {
+      // Skip Angerme official tweet because almost same tweets are posted by momonabot.
+      continue;
+    }
+    retweet_candidates.push(tweet.id_str);
+  }
+  return retweet_candidates;
+}
+
+exports.retweet = async function(retweet_candidate) {
+  try {
+    await client.post('statuses/retweet/' +  retweet_candidate, {});
+    console.log('Retweet success id: ' + retweet_candidate);
+  } catch(e) {
+    console.log(e);
   }
 }

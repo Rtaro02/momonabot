@@ -35,7 +35,8 @@ resource "google_cloud_run_service" "momonabot" {
     "eline",
     "hpfc",
     "instagram",
-    "instagram-others"
+    "instagram-others",
+    "retweet"
   ])
   name                       = each.value
   location                   = "us-central1"
@@ -67,7 +68,8 @@ resource "google_cloud_run_service_iam_member" "momonabot" {
     "eline",  
     "hpfc",
     "instagram",
-    "instagram-others"
+    "instagram-others",
+    "retweet"
   ])
   location = google_cloud_run_service.momonabot[each.value].location
   project = google_cloud_run_service.momonabot[each.value].project
@@ -225,5 +227,15 @@ module "instagram-others" {
   schedule = "0 * * * *"
   path     = "/instagram/others"
   cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "retweet" {
+  source = "../module/cloud_scheduler"
+
+  name     = "retweet"
+  schedule = "0 21 * * *"
+  path     = "/retweet"
+  cloudrun = google_cloud_run_service.momonabot["retweet"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
