@@ -22,8 +22,16 @@ app.get('/ameba/others', async (req, res) => {
     res.send("accepted");
 });
 
-app.get('/ameba/past/:year', async (req, res) => {
-    await ameba_past.run(req.params.year);
+app.get('/ameba/past', async (req, res) => {
+    var year = (new Date()).getFullYear();
+    while(true) {
+        year--;
+        // 2016年のあれこれ
+        if(year < 2016) {
+            break;
+        }  
+        await ameba_past.run(year);
+    }
     res.send("accepted");
 });
 
@@ -56,4 +64,5 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`momonabot: listening on port ${port}`);
 });
+// Timeout 10min.
 app.timeout = 1000 * 60 * 10;

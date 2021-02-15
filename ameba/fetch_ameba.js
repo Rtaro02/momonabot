@@ -83,7 +83,7 @@ exports.fetch_old_momona_post = async function(date, target_year) {
   var time_delta = base_year - target_year;
   var blogs = [];
   var year = target_year;
-  console.log(year + "年のブログを探索中...");
+  console.log(`${year}/${month}/${day} のブログを探索中...`);
   var previousUrl = "";
   var end_flag = false;
   var pageNo = 1;
