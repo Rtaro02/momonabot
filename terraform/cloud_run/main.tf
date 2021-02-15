@@ -154,7 +154,7 @@ module "ameba-past" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-past"
-  schedule = "00 9 * * *"
+  schedule = "30 9 * * *"
   path     = "/ameba/past"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
