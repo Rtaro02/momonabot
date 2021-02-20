@@ -88,11 +88,15 @@ exports.fetch_old_momona_post = async function(date, target_year) {
   var end_flag = false;
   var pageNo = 1;
   while(true) {
+    console.log(`PageNo is ${pageNo}`);
     var url = baseurl + pageNo + "-" + year + month + ".html"
     await page.goto(url, {waitUntil: 'domcontentloaded'});
     // await page.waitForTimeout(1500);
 
     var items = await page.$$('li.skin-borderQuiet');
+    if(items.length == 0) {
+      break;  
+    }
 
     var flag = true;
     for(var i = 0; i < items.length; i++) {
