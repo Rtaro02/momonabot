@@ -150,12 +150,102 @@ module "ameba-others-2" {
   service_account_email = google_service_account.cloudrun.email
 }
 
-module "ameba-past" {
+module "ameba-past-2016" {
   source = "../module/cloud_scheduler"
 
   name     = "ameba-past"
   schedule = "30 9 * * *"
-  path     = "/ameba/past"
+  path     = "/ameba/past/2016"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2017" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "31 9 * * *"
+  path     = "/ameba/past/2017"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2018" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "32 9 * * *"
+  path     = "/ameba/past/2018"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2019" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "33 9 * * *"
+  path     = "/ameba/past/2019"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2020" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "34 9 * * *"
+  path     = "/ameba/past/2020"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2021" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "35 9 * * *"
+  path     = "/ameba/past/2021"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2022" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "36 9 * * *"
+  path     = "/ameba/past/2022"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2023" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "37 9 * * *"
+  path     = "/ameba/past/2023"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2024" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "38 9 * * *"
+  path     = "/ameba/past/2024"
+  cloudrun = google_cloud_run_service.ameba_past.status[0].url
+  service_account_email = google_service_account.cloudrun.email
+}
+
+module "ameba-past-2025" {
+  source = "../module/cloud_scheduler"
+
+  name     = "ameba-past"
+  schedule = "39 9 * * *"
+  path     = "/ameba/past/2025"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
