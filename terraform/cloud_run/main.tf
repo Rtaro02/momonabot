@@ -153,7 +153,7 @@ module "ameba-others-2" {
 module "ameba-past-2016" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2016"
   schedule = "30 9 * * *"
   path     = "/ameba/past/2016"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -163,7 +163,7 @@ module "ameba-past-2016" {
 module "ameba-past-2017" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2017"
   schedule = "31 9 * * *"
   path     = "/ameba/past/2017"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -173,7 +173,7 @@ module "ameba-past-2017" {
 module "ameba-past-2018" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2018"
   schedule = "32 9 * * *"
   path     = "/ameba/past/2018"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -183,7 +183,7 @@ module "ameba-past-2018" {
 module "ameba-past-2019" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2019"
   schedule = "33 9 * * *"
   path     = "/ameba/past/2019"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -193,7 +193,7 @@ module "ameba-past-2019" {
 module "ameba-past-2020" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2020"
   schedule = "34 9 * * *"
   path     = "/ameba/past/2020"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -203,7 +203,7 @@ module "ameba-past-2020" {
 module "ameba-past-2021" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2021"
   schedule = "35 9 * * *"
   path     = "/ameba/past/2021"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -213,7 +213,7 @@ module "ameba-past-2021" {
 module "ameba-past-2022" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2022"
   schedule = "36 9 * * *"
   path     = "/ameba/past/2022"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -223,7 +223,7 @@ module "ameba-past-2022" {
 module "ameba-past-2023" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2023"
   schedule = "37 9 * * *"
   path     = "/ameba/past/2023"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -233,7 +233,7 @@ module "ameba-past-2023" {
 module "ameba-past-2024" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2024"
   schedule = "38 9 * * *"
   path     = "/ameba/past/2024"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
@@ -243,7 +243,7 @@ module "ameba-past-2024" {
 module "ameba-past-2025" {
   source = "../module/cloud_scheduler"
 
-  name     = "ameba-past"
+  name     = "ameba-past-2025"
   schedule = "39 9 * * *"
   path     = "/ameba/past/2025"
   cloudrun = google_cloud_run_service.ameba_past.status[0].url
