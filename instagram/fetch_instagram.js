@@ -21,7 +21,7 @@ exports.fetch = async function(instagram_url, number_of_article) {
     console.log(await page.title());
     const button = await page.$('button[ga="provider-submit"]');
     await button.click();
-    console.log("Transfer");
+    console.log(`Transfer to ${instagram_url}`);
     // await page.waitFor('div[ga=feed-overview-preview]');
     await page.waitFor(20000);
     console.log("xxxxxx")
