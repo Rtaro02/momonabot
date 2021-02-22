@@ -18,9 +18,13 @@ exports.fetch = async function(instagram_url, number_of_article) {
     await page.goto("https://rss.app/rss-feed/create-instagram-rss-feed");
     await page.waitFor('input[placeholder="Enter Instagram URL"]', { visible: true });
     await page.type('input[placeholder="Enter Instagram URL"]', instagram_url, { delay: 27 });
+    console.log(await page.title());
     const button = await page.$('button[ga="provider-submit"]');
     await button.click();
-    await page.waitFor('div[ga=feed-overview-preview]');
+    console.log("Transfer");
+    // await page.waitFor('div[ga=feed-overview-preview]');
+    await page.waitFor(10000);
+    console.log(await page.title());
     await page.screenshot({ path: 'screenshot.png' });
 
 

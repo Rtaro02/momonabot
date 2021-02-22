@@ -2,7 +2,7 @@ variable "gcp_project" {
   default = "momonabot"
 }
 variable "gcr_uri" {
-  default = "gcr.io/momonabot/momonabot:7dd6087"
+  default = "gcr.io/momonabot/momonabot:0556e67"
 }
 variable "region" {
   default = "asia-northeast1"
