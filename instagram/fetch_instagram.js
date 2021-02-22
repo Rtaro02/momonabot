@@ -23,7 +23,8 @@ exports.fetch = async function(instagram_url, number_of_article) {
     await button.click();
     console.log("Transfer");
     // await page.waitFor('div[ga=feed-overview-preview]');
-    await page.waitFor(10000);
+    await page.waitFor(20000);
+    console.log("xxxxxx")
     console.log(await page.title());
     await page.screenshot({ path: 'screenshot.png' });
 
