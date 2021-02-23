@@ -2,11 +2,11 @@ const URL = 'https://www.instagram.com/angerme_official/';
 const INSTAGRAM_RUNNER = require('./run_instagram.js');
 const URLs = [
   // Cute
-  "https://www.instagram.com/maimiyajima_official_uf/", // Maimi
-  "https://www.instagram.com/saki__nakajima__uf/", // Saki
-  "https://www.instagram.com/airisuzuki_official_uf/", // Airi
+  // "https://www.instagram.com/maimiyajima_official_uf/", // Maimi
+  // "https://www.instagram.com/saki__nakajima__uf/", // Saki
+  // "https://www.instagram.com/airisuzuki_official_uf/", // Airi
   // Morning
-  "https://www.instagram.com/sayumimichishige0713/", // Sayumi
+  // "https://www.instagram.com/sayumimichishige0713/", // Sayumi
   "https://www.instagram.com/mizuki_fukumura.official/", // Mizuki
   "https://www.instagram.com/erina_ikuta.official/", // Erina
   "https://www.instagram.com/ayumi_ishida.official/", // Ayumi
@@ -52,9 +52,9 @@ function getTargetIndex() {
   var base_index = (new Date()).getHours();
   var length = URLs.length;
   // At each run, read 6 articles from URLs above.
-  var read_article_number = 6;
+  var read_article_number = 3;
   var list = [];
-  for(var i of [0, 1, 2, 3, 4, 5]) {
+  for(var i of [0, 1, 2]) {
     list.push((base_index * read_article_number + i) % length);
   }
   return list;

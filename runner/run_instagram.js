@@ -18,11 +18,11 @@ function getTweetText(x, others_flag) {
   return sentence;
 }
 
-function imageSave(x) {
+function imageSave(image_url) {
   return new Promise(function(resolve, reject) {
-      request({method: 'GET', url: x.image_url, encoding: null}, function (error, response, body) {
+      request({method: 'GET', url: image_url, encoding: null}, function (error, response, body) {
         if(!error && response.statusCode === 200){
-          fs.writeFileSync(x.image_name, body, 'binary');
+          fs.writeFileSync(image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1'), body, 'binary');
         }
         resolve();
       });
@@ -35,7 +35,7 @@ function tweet(args) {
     var others_flag = args[1]
     var result = await FIRESTORE.findInstagramResult(x.url);
     if(result == null) {
-      var error = await TWEET.post_with_images(getTweetText(x, others_flag), [ x.image_name ]);
+      var error = await TWEET.post_with_images(getTweetText(x, others_flag), x.image_names);
       if(!error) {
         await FIRESTORE.addInstagramResult(x);
       }
@@ -49,13 +49,16 @@ function tweet(args) {
 exports.run = async function(url = URL, number_of_article = 5, others_flag) {
   var instagrams = await INSTAGRAM.fetch(url, number_of_article);
   var myPromise = Promise.resolve();
-  for(var x of instagrams) {
+  for(var instagram of instagrams) {
     // There are no momona words, skip
-    if(confirm_include_momona_name(x.sentence)){
-      console.log("Momona episode was found in " + x.url);
-      myPromise = myPromise.then(imageSave.bind(this, x)).then(tweet.bind(this, [x, others_flag]));
+    if(confirm_include_momona_name(instagram.sentence)){
+      console.log("Momona episode was found in " + instagram.url);
+      for(var image_url of instagram.image_urls) {
+        myPromise = myPromise.then(imageSave.bind(this, image_url));
+      }
+      myPromise = myPromise.then(tweet.bind(this, [instagram, others_flag]));
     } else {
-      console.log("There are no episode in " + x.url);
+      console.log("There are no episode in " + instagram.url);
     }
   }
 }

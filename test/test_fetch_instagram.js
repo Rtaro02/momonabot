@@ -16,11 +16,11 @@ describe('Instagram挙動確認', function () {
     });
     it('画像はCDNのURL', async function () {
         regex = /^https:\/\/.*cdninstagram.com.*$/;
-        assert.strictEqual(regex.test(result[0].image_url), true);
+        assert.strictEqual(regex.test(result[0].image_urls[0]), true);
     });
     it('画像名は.jpg', async function () {
         regex = /^[0-9a-z_]+\.jpg$/;
-        assert.strictEqual(regex.test(result[0].image_name), true);
+        assert.strictEqual(regex.test(result[0].image_names[0]), true);
     });
 });
 
