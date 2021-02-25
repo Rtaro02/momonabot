@@ -1,19 +1,21 @@
 # momonabot
 
-この Bot は笠原桃奈ちゃんに関連する情報を収集してツイートします
+momonabot will tweet about Momona Kasahara informations which are got by scraping.
 
-## ユーザーストーリー
+## Features
 
-この Bot は実装者も一人のユーザーなので、ユーザーストーリーを洗い出して実装しました。  
-機能に関連のあるユーザーストーリーを下記に示します。
+momonabot tweets...
 
-| As a ... | I want to ... | so that I can ... |
-|----------|---------------|-------------------|
-| Bot として | 桃奈ちゃんのブログ更新を画像つきでツイートしたい | 桃奈ちゃんのファンが画像を容易に保存できる |
-| Bot として | 他のH!Pメンバーが桃奈ちゃんに触れたブログについてツイートしたい | 他のメンバーの桃奈ちゃんの話題を見逃さずにアクセスできる |
-| Bot として | Elineupmallで笠原桃奈ちゃん/アンジュルム全体の商品情報が登場したら一つ一つツイートしたい | 桃奈ちゃんのファンがとりあえず一個一個の新商品に気がついて、ほしいと思った商品を見逃さないことができる |
-| Bot として | H!P FCのNewsの更新情報で笠原桃奈ちゃん/アンジュルム全体に関する情報をツイートしたい | 桃奈ちゃんのファンがx月通販とかちょっとニッチな情報からライブの情報まで笠原桃奈ちゃんに関するFCの情報に限定的にアクセスできる。 |
-| Bot として | H!PのパブリックサイトのNewsの更新情報で笠原桃奈ちゃん/アンジュルム全体に関する情報をツイートしたい | 桃奈ちゃんのファンが個別やニュースの情報にアクセスできる |
-| Bot として | アンジュルムのインスタグラムの更新情報を画像つきでツイートしたい(*1) | 桃奈ちゃんのファンがインスタグラムの画像を楽に保存して、幸せになれるように |
+- Momona Kasahara blogs updates with images.
+- Hello! Project membets blogs updates which contain Momona Kasahara episode with images.
+- Momona Kasahara blogs which was posted at N years ago with images.
+- Angerme Official Instagram updates posted by Momona Kasahara with images.
+- Hello! Project individual accounts updates which contain Momona Kasahara episode with images.
+- Retweets someones tweet which have over 10 retweets and contain words about Momona Kasahara.
+- New products about Angerme or Momona Kasahara at Elineup-mall with images.
+- News which was posted at Hello! Project Official site. 
+- News which was posted at Hello! Project FC site. 
 
-(*1) インスタ投稿に関しては桃奈ちゃんの投稿に絞っていないです。一旦。なんとなく。
+## Environments
+
+momonabot is powered by Google Cloud Platform. 
