@@ -25,7 +25,6 @@ exports.fetch = async function(url) {
         var timeItem = await item.$('p');
         blog.url = await (await urlItem.getProperty('href')).jsonValue();
         blog.title = await (await urlItem.getProperty('textContent')).jsonValue();
-        blog.time = (await (await timeItem.getProperty('textContent')).jsonValue()).replace('NEW!', '');
         break;
       };
       n++;
@@ -84,16 +83,20 @@ exports.fetch_old_momona_post = async function(date, target_year) {
   var time_delta = base_year - target_year;
   var blogs = [];
   var year = target_year;
-  console.log(year + "年のブログを探索中...");
+  console.log(`${year}/${month}/${day} のブログを探索中...`);
   var previousUrl = "";
   var end_flag = false;
   var pageNo = 1;
   while(true) {
+    console.log(`PageNo is ${pageNo}`);
     var url = baseurl + pageNo + "-" + year + month + ".html"
     await page.goto(url, {waitUntil: 'domcontentloaded'});
     // await page.waitForTimeout(1500);
 
     var items = await page.$$('li.skin-borderQuiet');
+    if(items.length == 0) {
+      break;  
+    }
 
     var flag = true;
     for(var i = 0; i < items.length; i++) {

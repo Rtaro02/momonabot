@@ -1,80 +1,89 @@
 const puppeteer = require('puppeteer');
 const request = require('request');
 const fs = require('fs');
+const { confirm_include_momona_name } = require('../util/util');
+const { post_with_images } = require('../tweet/tweet');
 const credential = require('../secret/credential.js').instagram;
-// 繰り返しの時間。Cronの時刻と合わせること
 
-function imageSave(url, name) {
-  return new Promise(function(resolve, reject) {
-      request({method: 'GET', url: url, encoding: null}, function (error, response, body) {
-        if(!error && response.statusCode === 200){
-          fs.writeFileSync(name, body, 'binary');
-        }
-        resolve();
-      });
-  });
-}
-
-exports.fetch = async function(url, number_of_article) {
-    const browser = await puppeteer.launch({
+exports.fetch = async function(instagram_url, number_of_article) {
+    const browser = await puppeteer.launch({ 
+        // headless: false,
         args: [
           '--no-sandbox',
-          '--disable-setuid-sandbox'
+          '--disable-setuid-sandbox',
+          '--incognito'
         ]
     });
 
     const page = await browser.newPage();
+    await page.setUserAgent("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36");
 
     // Login Page
-    await page.goto(url, {waitUntil: 'domcontentloaded'});
-    // await page.waitFor(3000);
+    await page.goto("https://www.instagram.com/accounts/login/?next=/angerme_official/", {waitUntil: 'domcontentloaded'});
+
+    await page.waitFor('input[name="username"]', { visible: true });
+
     await page.type('input[name="username"]', credential.username);
     await page.type('input[name="password"]', credential.password);
-    const button = await page.$('button[type=submit]');
+    const button = await page.$('button[type="submit"]');
     await button.click();
-    // await page.waitFor(10000);
 
-    // Submit Page
-    var buttons = await page.$('button[type=button]');
-    await buttons.click();
-    // await page.waitFor(10000);
+    await page.waitFor(3000);
 
-    // Mainpage
-    var items = await page.$$('article > div > div > div > div');
-    var list = [];
-    for(var item of items) {
-      var urlItem = await item.$('a');
-      url = await (await urlItem.getProperty('href')).jsonValue();
-      list.push(url);
+    await page.goto(instagram_url);
+    var article = await page.$('article');
+    var a_tags = await article.$$('a');
+    var urls = [];
+    for(var a_tag of a_tags) {
+      var url = await (await a_tag.getProperty('href')).jsonValue();
+      urls.push(url);
     }
-
-    var n = 0;
-    var result = [];
-    if(!number_of_article) {
-      number_of_article = 3;
-    }
-    var myPromise = Promise.resolve();
-    while(n < number_of_article) {
-      var insta_post = {};
-      insta_post.url = list[n];
-      await page.goto(list[n], {waitUntil: 'domcontentloaded'});
-      // await page.waitFor(1500);
-      var whole = await page.$$('article > div');
-      sentences = await whole[2].$$('div > ul > div > li > div > div > div');
-      insta_post.sentence = (await (await sentences[1].getProperty('textContent')).jsonValue()).replace(/^angerme_officialVerified/, '');
-      images = await (await whole[1].$('div > div > div')).$$('img');
-      var l = [];
-      for(var image of images) {
-        var image_url = await (await image.getProperty('src')).jsonValue();
-        var image_name = image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1');
-        l.push(image_name);
-        myPromise = myPromise.then(imageSave.bind(this, image_url, image_name));
+    var results = []
+    var i = 0;
+    for(var url of urls) {
+      if(number_of_article < ++i) {
+        break;
       }
-      insta_post.images = l;
-      result.push(insta_post);
-      n++;
+      var result = {}
+      console.log(`Checking ${url}`);
+      await page.goto(url);
+      var right_allow = await page.$('div.coreSpriteRightChevron');
+      if(right_allow != null || right_allow != undefined) {
+        await right_allow.click();
+      }
+      // var article = await page.$('article');
+      // var main_area = await article.$$('div');
+      var main_area = await page.$$('article > div');
+      var imgs = await main_area[1].$$('img');
+      var spans = await main_area[2].$$('span');
+      var post_flag = false;
+      var main_sentence;
+      for(var span of spans) {
+        var text = await (await span.getProperty('textContent')).jsonValue();
+        // Check previous text status. 
+        // After "Verified" sentence, main sentence posted by members come.
+        if(post_flag) {
+          main_sentence = text.replace(/^[ \.・\n]*/, '');
+        }
+        // Check "Verified" stirng. this value will be used at next term.
+        post_flag = /Verified/.test(text);
+      }
+      image_urls = [];
+      image_names = [];
+      for(var img of imgs) {
+        var image_url = await (await img.getProperty('src')).jsonValue();
+        var image_name = image_url.replace(/^https.*\/([^\/]+\.jpg).*$/, '$1');
+        console.log(`Instagram image is ${image_url}`);
+        image_urls.push(image_url);
+        image_names.push(image_name);
+      }
+      result.url = url;
+      result.sentence = main_sentence;
+      result.image_urls = image_urls;
+      result.image_names = image_names;
+      results.push(result);
+      console.log(main_sentence);
     }
-
     browser.close();
-    return result;
+    return results;
 };

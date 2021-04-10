@@ -1,9 +1,8 @@
-const TWEET = require('../tweet/tweet_with_image.js');
+const TWEET = require('../tweet/tweet.js');
 const ELINE = require('../eline/fetch_eline.js');
 const request = require('request');
 const FIRESTORE = require('../firestore/firestore.js');
 const fs = require('fs');
-const process = require('process');
 const ELINE_ANGERME_URL = 'https://www.elineupmall.com/?subcats=Y&pcode_from_q=Y&pshort=Y&pfull=Y&pname=Y&pkeywords=Y&search_performed=Y&q=%E3%82%A2%E3%83%B3%E3%82%B8%E3%83%A5%E3%83%AB%E3%83%A0&dispatch=products.search&page=';
 const FINAL_PAGE = 3;
 
@@ -25,13 +24,10 @@ function imageSave(x) {
 function tweet(x) {
   return new Promise(async function(resolve, reject) {
     var result = await FIRESTORE.findElineResult(x.url);
-    var willTweet = process.argv[2];
     if(result == null) {
-      await FIRESTORE.addElineResult(x);
-      if(willTweet) {
-        await TWEET.post(getTweetText(x), [ x.name ]);
-      } else {
-        console.log(new Date() + ' tweet was skipped by user.');
+      var error = await TWEET.post_with_images(getTweetText(x), [ x.name ]);
+      if(!error) {
+        await FIRESTORE.addElineResult(x);
       }
     } else {
       console.log(new Date() + ' ' + result.title + ' was already tweeted');
