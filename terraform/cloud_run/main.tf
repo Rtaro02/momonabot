@@ -50,10 +50,10 @@ resource "google_cloud_run_service" "momonabot" {
           container_port = 8080
         }
         resources {
-          limits = map(
-            "cpu", "1000m",
-            "memory", "2048Mi"
-          )
+          limits = tomap({
+            "cpu" = "1000m",
+            "memory" = "2048Mi"
+          })
         }
       }
       timeout_seconds = 600
@@ -75,7 +75,7 @@ resource "google_cloud_run_service_iam_member" "momonabot" {
   project = google_cloud_run_service.momonabot[each.value].project
   service = google_cloud_run_service.momonabot[each.value].name
   role = "roles/editor"
-  member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
+  member = "serviceAccount:${google_service_account.cloudrun.email}"
 }
 
 resource "google_cloud_run_service" "ameba_past" {
@@ -91,10 +91,10 @@ resource "google_cloud_run_service" "ameba_past" {
           container_port = 8080
         }
         resources {
-          limits = map(
-            "cpu", "2000m",
-            "memory", "4096Mi"
-          )
+          limits = tomap({
+            "cpu" = "2000m",
+            "memory" = "4096Mi"
+          })
         }
       }
       timeout_seconds = 600
@@ -107,7 +107,7 @@ resource "google_cloud_run_service_iam_member" "ameba_past" {
   project = google_cloud_run_service.ameba_past.project
   service = google_cloud_run_service.ameba_past.name
   role = "roles/editor"
-  member = join(":", list("serviceAccount", google_service_account.cloudrun.email))
+  member = "serviceAccount:${google_service_account.cloudrun.email}"
 }
 
 module "ameba-momona-1" {
@@ -280,15 +280,15 @@ module "instagram" {
   service_account_email = google_service_account.cloudrun.email
 }
 
-module "instagram-others" {
-  source = "../module/cloud_scheduler"
+# module "instagram-others" {
+#   source = "../module/cloud_scheduler"
 
-  name     = "instagram-others"
-  schedule = "0 * * * *"
-  path     = "/instagram/others"
-  cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
+#   name     = "instagram-others"
+#   schedule = "0 * * * *"
+#   path     = "/instagram/others"
+#   cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
+#   service_account_email = google_service_account.cloudrun.email
+# }
 
 module "retweet" {
   source = "../module/cloud_scheduler"
