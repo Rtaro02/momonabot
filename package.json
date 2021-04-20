@@ -1,14 +1,14 @@
 {
     "dependencies": {
         "chai": "^4.2.0",
+        "express": "4.17.1",
+        "firebase-admin": "9.4.1",
         "fs": "0.0.1-security",
         "mocha": "8.2.1",
         "mongodb": "3.6.3",
         "puppeteer": "5.2.1",
         "puppeteer-core": "5.2.1",
         "request": "*",
-        "twitter": "*",
-        "firebase-admin": "9.4.1",
-        "express": "4.17.1"
+        "twitter": "*"
     }
 }

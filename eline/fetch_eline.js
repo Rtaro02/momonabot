@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
-const util = require('../util/util.js');
 const dom_structure = 'div.grid-list > div';
+// const util = require('../util/util.js');
 
 async function load(url) {
     const browser = await puppeteer.launch({
@@ -25,9 +25,10 @@ async function load(url) {
       // Fetch image url and remove sentences for thumbnails.
       map.image = (await (await y.getProperty('src')).jsonValue()).replace(/thumbnails\/\d+\/\d+\//, '').replace(/\?t=\d+/, '');
       map.name = map.image.replace(/^https.*\/([^\/]+\.jpg)$/, '$1');
-      if(util.isMomonaOrAngermeTopic(map.title)) {
-        list.push(map);
-      }
+      // if(util.isMomonaOrAngermeTopic(map.title)) {
+      console.log(map)
+      list.push(map);
+      // }
     }
     browser.close();
     return list;
