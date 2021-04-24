@@ -22,7 +22,7 @@ resource "google_storage_bucket_iam_member" "gke_bucket" {
 resource "google_container_cluster" "this" {
   name               = "momona-cluster"
   location           = var.zone
-  initial_node_count = 3
+  initial_node_count = 2
 
   master_auth {
     username = ""
@@ -35,7 +35,7 @@ resource "google_container_cluster" "this" {
  
   node_config {
     preemptible  = true
-    machine_type = "e2-micro"
+    machine_type = "e2-standard-4"
     metadata = {
       disable-legacy-endpoints = "true"
     }
