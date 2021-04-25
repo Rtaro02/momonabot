@@ -31,5 +31,5 @@ spec:
   http: # Have to be fixed
   - route:
     - destination:
-        host: reviews
+        host: momonabot-nginx.momonabot.svc.cluster.local
         subset: v3
