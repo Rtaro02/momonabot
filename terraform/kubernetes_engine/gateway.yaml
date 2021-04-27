@@ -9,14 +9,11 @@ spec:
     app: istio-ingressgateway
   servers:
   - port:
-      number: 443
-      name: https
-      protocol: HTTPS
+      number: 80
+      name: http
+      protocol: HTTP
     hosts:
-    - momonabot.tk
-    tls:
-      mode: SIMPLE
-      credentialName: ext-host-cert
+    - "*"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -25,11 +22,10 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - momonabot.tk
+  - "*"
   gateways:
   - gateway
   http: # Have to be fixed
   - route:
     - destination:
         host: momonabot-nginx.momonabot.svc.cluster.local
-        subset: v3
