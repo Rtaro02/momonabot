@@ -28,4 +28,4 @@ spec:
   http: # Have to be fixed
   - route:
     - destination:
-        host: momonabot-nginx.momonabot.svc.cluster.local
+        host: momonabot-nginx.default.svc.cluster.local
