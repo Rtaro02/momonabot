@@ -299,3 +299,40 @@ module "retweet" {
   cloudrun = google_cloud_run_service.momonabot["retweet"].status[0].url
   service_account_email = google_service_account.cloudrun.email
 }
+
+data "template_file" "startup_script" {
+  template = "${file("${path.module}/sTartup_script.sh")}"
+  vars = {
+    cloudrun = "${google_cloud_run_service.momonabot["retweet"].status[0].url}"
+  }
+}
+
+resource "google_compute_instance" "momonabot_vm" {
+  name         = "momonabot-vm"
+  machine_type = "f1-micro"
+  zone         = "us-west1-b"
+
+  tags = []
+
+  boot_disk {
+    initialize_params {
+      size = 30
+      type = "pd-standard"
+      image = "debian-cloud/debian-10"
+    }
+  }
+
+  network_interface {
+    network = "default"
+  }
+
+  metadata = {
+  }
+
+  metadata_startup_script = "${data.template_file.startup_script}"
+
+  service_account {
+    email  = google_service_account.cloudrun.email
+    scopes = [ "cloud-platform" ]
+  }
+}
