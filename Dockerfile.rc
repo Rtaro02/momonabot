@@ -20,4 +20,5 @@ RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(ls
 RUN apt-get update && apt-get install -y terraform
 
 # Install Addtional tools
-RUN apt-get install -y git
+RUN apt-get install -y git \
+    vim
