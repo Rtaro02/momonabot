@@ -110,196 +110,6 @@ resource "google_cloud_run_service_iam_member" "ameba_past" {
   member = "serviceAccount:${google_service_account.cloudrun.email}"
 }
 
-module "ameba-momona-1" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-momona-1"
-  schedule = "*/30 10-23 * * *"
-  path     = "/ameba/momona"
-  cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-momona-2" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-momona-2"
-  schedule = "*/30 0-2 * * *"
-  path     = "/ameba/momona"
-  cloudrun = google_cloud_run_service.momonabot["ameba-momona"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-others-1" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-others-1"
-  schedule = "*/30 18-23 * * *"
-  path     = "/ameba/others"
-  cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-others-2" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-others-2"
-  schedule = "*/30 0-2 * * *"
-  path     = "/ameba/others"
-  cloudrun = google_cloud_run_service.momonabot["ameba-others"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2016" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2016"
-  schedule = "30 9 * * *"
-  path     = "/ameba/past/2016"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2017" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2017"
-  schedule = "31 9 * * *"
-  path     = "/ameba/past/2017"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2018" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2018"
-  schedule = "32 9 * * *"
-  path     = "/ameba/past/2018"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2019" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2019"
-  schedule = "33 9 * * *"
-  path     = "/ameba/past/2019"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2020" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2020"
-  schedule = "34 9 * * *"
-  path     = "/ameba/past/2020"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2021" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2021"
-  schedule = "35 9 * * *"
-  path     = "/ameba/past/2021"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2022" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2022"
-  schedule = "36 9 * * *"
-  path     = "/ameba/past/2022"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2023" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2023"
-  schedule = "37 9 * * *"
-  path     = "/ameba/past/2023"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2024" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2024"
-  schedule = "38 9 * * *"
-  path     = "/ameba/past/2024"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "ameba-past-2025" {
-  source = "../module/cloud_scheduler"
-
-  name     = "ameba-past-2025"
-  schedule = "39 9 * * *"
-  path     = "/ameba/past/2025"
-  cloudrun = google_cloud_run_service.ameba_past.status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "eline" {
-  source = "../module/cloud_scheduler"
-
-  name     = "eline"
-  schedule = "0 12-18 * * *"
-  path     = "/eline"
-  cloudrun = google_cloud_run_service.momonabot["eline"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "hpfc" {
-  source = "../module/cloud_scheduler"
-
-  name     = "hpfc"
-  schedule = "0 12-21 * * *"
-  path     = "/hpfc"
-  cloudrun = google_cloud_run_service.momonabot["hpfc"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-module "instagram" {
-  source = "../module/cloud_scheduler"
-
-  name     = "instagram"
-  schedule = "*/30 12-23 * * *"
-  path     = "/instagram/angerme"
-  cloudrun = google_cloud_run_service.momonabot["instagram"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
-# module "instagram-others" {
-#   source = "../module/cloud_scheduler"
-
-#   name     = "instagram-others"
-#   schedule = "0 * * * *"
-#   path     = "/instagram/others"
-#   cloudrun = google_cloud_run_service.momonabot["instagram-others"].status[0].url
-#   service_account_email = google_service_account.cloudrun.email
-# }
-
-module "retweet" {
-  source = "../module/cloud_scheduler"
-
-  name     = "retweet"
-  schedule = "0 21 * * *"
-  path     = "/retweet"
-  cloudrun = google_cloud_run_service.momonabot["retweet"].status[0].url
-  service_account_email = google_service_account.cloudrun.email
-}
-
 resource "google_compute_network" "momonabot_network" {
   name = "momonabot-network"
   auto_create_subnetworks = false
@@ -361,7 +171,40 @@ resource "google_compute_instance" "momonabot_vm" {
   }
 
   metadata_startup_script = templatefile("./startup_script.sh", {
-    cloud_run = "${google_cloud_run_service.momonabot["retweet"].status[0].url}"
+    ameba_momona_cron_1 = "*/30 10-23 * * *"
+    ameba_momona_cron_2 = "*/30 0-2 * * *"
+    ameba_momona_url = "${google_cloud_run_service.momonabot["ameba-momona"].status[0].url}/ameba/momona"
+    ameba_other_cron_1 = "*/30 18-23 * * *"
+    ameba_other_cron_2 = "*/30 0-2 * * *"
+    ameba_other_url = "${google_cloud_run_service.momonabot["ameba-others"].status[0].url}/ameba/others"
+    ameba_past_cron_2016 = "30 9 * * *"
+    ameba_past_url_2016 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2016"
+    ameba_past_cron_2017 = "31 9 * * *"
+    ameba_past_url_2017 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2017"
+    ameba_past_cron_2018 = "32 9 * * *"
+    ameba_past_url_2018 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2018"
+    ameba_past_cron_2019 = "33 9 * * *"
+    ameba_past_url_2019 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2019"
+    ameba_past_cron_2020 = "34 9 * * *"
+    ameba_past_url_2020 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2020"
+    ameba_past_cron_2021 = "35 9 * * *"
+    ameba_past_url_2021 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2021"
+    ameba_past_cron_2022 = "36 9 * * *"
+    ameba_past_url_2022 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2022"
+    ameba_past_cron_2023 = "37 9 * * *"
+    ameba_past_url_2023 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2023"
+    ameba_past_cron_2024 = "38 9 * * *"
+    ameba_past_url_2024 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2024"
+    ameba_past_cron_2025 = "39 9 * * *"
+    ameba_past_url_2025 = "${google_cloud_run_service.ameba_past.status[0].url}/ameba/past/2025"
+    eline_cron = "0 12-18 * * *"
+    eline_url = "${google_cloud_run_service.momonabot["eline"].status[0].url}/eline"
+    hpfc_cron = "0 12-21 * * *"
+    hpfc_url = "${google_cloud_run_service.momonabot["hpfc"].status[0].url}/hpfc"
+    instagram_cron = "*/30 12-23 * * *"
+    instagram_url = "${google_cloud_run_service.momonabot["instagram"].status[0].url}/instagram/angerme"
+    retweet_cron = "0 21 * * *"
+    retweet_url = "${google_cloud_run_service.momonabot["retweet"].status[0].url}/retweet"
   })
 
   service_account {
