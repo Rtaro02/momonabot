@@ -1,5 +1,5 @@
-# FROM ubuntu:20.04
-FROM ubuntu:20.04@sha256:86ac87f73641c920fb42cc9612d4fb57b5626b56ea2a19b894d0673fd5b4f2e9
+FROM ubuntu:20.04
+# FROM ubuntu:20.04@sha256:86ac87f73641c920fb42cc9612d4fb57b5626b56ea2a19b894d0673fd5b4f2e9
 
 RUN apt-get update
 RUN apt-get install -y \
@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y google-cloud-sdk
 # Install Terraform
 RUN apt-get install -y software-properties-common
 RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
-RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+RUN apt-add-repository "deb [arch=arm64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 RUN apt-get update && apt-get install -y terraform
 
 # Install Addtional tools

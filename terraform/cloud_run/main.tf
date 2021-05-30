@@ -300,19 +300,47 @@ module "retweet" {
   service_account_email = google_service_account.cloudrun.email
 }
 
-data "template_file" "startup_script" {
-  template = "${file("${path.module}/sTartup_script.sh")}"
-  vars = {
-    cloudrun = "${google_cloud_run_service.momonabot["retweet"].status[0].url}"
+resource "google_compute_network" "momonabot_network" {
+  name = "momonabot-network"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "momonabot_subnetwork" {
+  name          = "momonabot-subnetwork"
+  ip_cidr_range = "10.128.0.0/20"
+  region        = "us-central1"
+  network       = google_compute_network.momonabot_network.id
+}
+
+resource "google_compute_firewall" "allow_iap" {
+  name    = "allow-iap-ingress"
+  network = google_compute_network.momonabot_network.name
+  priority = 1000
+  source_ranges = [ "35.235.240.0/20" ]
+
+  allow {
+    protocol = "tcp"
+    ports = [ "22", "3389" ]
+  }
+}
+
+resource "google_compute_firewall" "deny_all_ingress" {
+  name    = "deny-all-ingress"
+  network = google_compute_network.momonabot_network.name
+  priority = 65535
+  source_ranges = [ "0.0.0.0/0" ]
+
+  deny {
+    protocol = "all"
   }
 }
 
 resource "google_compute_instance" "momonabot_vm" {
   name         = "momonabot-vm"
   machine_type = "f1-micro"
-  zone         = "us-west1-b"
+  zone         = "us-central1-b"
 
-  tags = []
+  tags = [ "momonabot" ]
 
   boot_disk {
     initialize_params {
@@ -323,13 +351,18 @@ resource "google_compute_instance" "momonabot_vm" {
   }
 
   network_interface {
-    network = "default"
+    network = google_compute_network.momonabot_network.name
+    subnetwork = google_compute_subnetwork.momonabot_subnetwork.name
+    access_config {
+    }
   }
 
   metadata = {
   }
 
-  metadata_startup_script = "${data.template_file.startup_script}"
+  metadata_startup_script = templatefile("./startup_script.sh", {
+    cloud_run = "${google_cloud_run_service.momonabot["retweet"].status[0].url}"
+  })
 
   service_account {
     email  = google_service_account.cloudrun.email
