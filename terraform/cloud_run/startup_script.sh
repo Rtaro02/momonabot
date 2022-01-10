@@ -2,8 +2,6 @@
 timedatectl set-timezone Asia/Tokyo
 service cron restart
 cat <<'EOF' > /etc/cron.d/cron
-${ameba_momona_cron_1} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_momona_url}
-${ameba_momona_cron_2} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_momona_url}
 ${ameba_other_cron_1} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_other_url}
 ${ameba_other_cron_2} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_other_url}
 ${ameba_past_cron_2016} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_past_url_2016}
@@ -17,7 +15,5 @@ ${ameba_past_cron_2023} root curl -H "Authorization: Bearer $(gcloud auth print-
 ${ameba_past_cron_2024} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_past_url_2024}
 ${ameba_past_cron_2025} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_past_url_2025}
 ${eline_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${eline_url}
-${hpfc_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${hpfc_url}
-${instagram_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${instagram_url}
 ${retweet_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${retweet_url}
 EOF
