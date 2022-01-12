@@ -16,4 +16,5 @@ ${ameba_past_cron_2024} root curl -H "Authorization: Bearer $(gcloud auth print-
 ${ameba_past_cron_2025} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${ameba_past_url_2025}
 ${eline_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${eline_url}
 ${retweet_cron} root curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" ${retweet_url}
+
 EOF
