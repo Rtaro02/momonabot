@@ -5,7 +5,7 @@
         "firebase-admin": "9.4.1",
         "fs": "0.0.1-security",
         "mocha": "8.2.1",
-        "mongodb": "3.6.3",
+        "mongodb": "3.6.10",
         "puppeteer": "5.2.1",
         "puppeteer-core": "5.2.1",
         "request": "*",
